@@ -4,7 +4,7 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 
-class UserRepository implements UserRepositoryInteface
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * Create a new class instance.
@@ -22,5 +22,10 @@ class UserRepository implements UserRepositoryInteface
         $user = $this->user::create($data);
 
         return $user;
+    }
+
+    public function findByEmail(string $email): ?User
+    {
+        return User::where('email', $email)->first();
     }
 }

@@ -20,8 +20,9 @@ class JwtAuthService
     {
         $uniqueId = Str::uuid()->toString();
         $payload = [
-            'iss' => "your-issuer", // Issuer
+            'iss' => env('APP_NAME'),
             'sub' => $user->id,
+            'user_uuid' => $user->uuid,
             'iat' => time(),
             'exp' => time() + 60*60, // Expiration time (1 hour)
             'jti' => $uniqueId // JWT ID
