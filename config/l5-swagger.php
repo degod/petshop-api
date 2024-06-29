@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'Petshop API',
+                'title' => 'Petshop API Documentation',
             ],
 
             'routes' => [

@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'is_admin' => $this->faker->boolean,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => $this->faker->optional()->dateTimeThisYear,
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make('userpassword'),
             'avatar' => $this->faker->optional()->uuid,
             'address' => $this->faker->address,
             'phone_number' => $this->faker->phoneNumber,
