@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('jwt_tokens', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->text('unique_id');
+            $table->string('unique_id');
             $table->string('token_title');
             $table->json('restrictions')->nullable();
             $table->json('permissions')->nullable();

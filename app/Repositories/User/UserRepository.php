@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -18,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(array $data): User
     {
-
+        $data['uuid'] = Str::uuid();
         $user = $this->user::create($data);
 
         return $user;

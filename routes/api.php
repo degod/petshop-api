@@ -9,10 +9,7 @@ use App\Http\Controllers\User\CreateController;
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
     Route::prefix('user')->group(function () {
-        // Route::post('/create', [CreateController::class])->name('user.create');
-        Route::post('/create', function (Request $request) {
-            return "Gotcha!!!";
-        });
+        Route::post('create', CreateController::class)->name('user.create');
 
         Route::middleware([JwtMiddleware::class])->group(function () {
             // Route::post('/create', [CreateController::class])->name('user.create');

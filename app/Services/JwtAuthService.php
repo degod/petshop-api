@@ -18,7 +18,7 @@ class JwtAuthService
 
     public function generateToken($user)
     {
-        $uniqueId = Str::uuid()->toString();
+        $uniqueId = Str::uuid();
         $payload = [
             'iss' => env('APP_NAME'),
             'sub' => $user->id,

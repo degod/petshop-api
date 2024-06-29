@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Models\User;
 
 class StoreUser extends FormRequest
@@ -17,21 +19,34 @@ class StoreUser extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'is_admin' => ['required', 'boolean'],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users,email'],
+            'first_name' => ['required', 'string', 'max:255', 'min:3'],
+            'last_name' => ['required', 'string', 'max:255', 'min:3'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'min:3', 'unique:users,email'],
             'password' => ['required', 'string', 'confirmed', 'min:8'],
-            'avatar' => ['nullable', 'string', 'size:36'],
-            'address' => ['required', 'string', 'max:255'],
+            'avatar' => ['nullable', 'string', 'max:36'],
+            'address' => ['required', 'string', 'max:255', 'min:3'],
             'phone_number' => ['required', 'string', 'max:20'],
-            'is_marketing' => ['required', 'boolean'],
+            'is_marketing' => ['nullable','string'],
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
