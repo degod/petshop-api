@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUser;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * @OA\Post(

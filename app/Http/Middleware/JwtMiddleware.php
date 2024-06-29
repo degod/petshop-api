@@ -20,16 +20,17 @@ class JwtMiddleware
         $token = $request->bearerToken();
 
         if (!$token) {
-            return response()->json(['error' => 'Token not provided'], 401);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $decoded = $this->jwtAuthService->decodeToken($token);
 
         if (!$decoded) {
-            return response()->json(['error' => 'Invalid or revoked token'], 401);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $request->attributes->add(['user' => $decoded->sub]);
+        $claims = $decoded->claims();
+        $request->attributes->add(['user' => $claims->get('sub')]);
 
         return $next($request);
     }
