@@ -4,26 +4,23 @@
         "title": "Petshop API Documentation",
         "description": "This is the API documentation for Petshop.",
         "contact": {
+            "name": "Godwin (DeGod)",
             "email": "support@petshop-api.test"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "1.0.0"
     },
     "paths": {
-        "/api/user/register": {
+        "/api/v1/user/create": {
             "post": {
                 "tags": [
                     "User"
                 ],
-                "summary": "Register a new user",
-                "operationId": "f8845e2b310708851db09518f3ce20aa",
+                "summary": "Create a User account",
+                "operationId": "094da5af3357ede008902b12bf944aff",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "required": [
                                     "first_name",
@@ -36,33 +33,39 @@
                                 ],
                                 "properties": {
                                     "first_name": {
+                                        "description": "User firstname",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "User lastname",
                                         "type": "string"
                                     },
                                     "email": {
-                                        "type": "string",
-                                        "format": "email"
+                                        "description": "User email",
+                                        "type": "string"
                                     },
                                     "password": {
-                                        "type": "string",
-                                        "format": "password"
+                                        "description": "User password",
+                                        "type": "string"
                                     },
                                     "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password"
+                                        "description": "User password",
+                                        "type": "string"
                                     },
                                     "avatar": {
+                                        "description": "Avatar image UUID",
                                         "type": "string"
                                     },
                                     "address": {
+                                        "description": "User main address",
                                         "type": "string"
                                     },
                                     "phone_number": {
+                                        "description": "User main phone number",
                                         "type": "string"
                                     },
                                     "is_marketing": {
+                                        "description": "User marketing preferences",
                                         "type": "string"
                                     }
                                 },
@@ -73,82 +76,19 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User registered successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "user": {
-                                            "type": "object"
-                                        },
-                                        "token": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "OK"
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Unauthorized"
                     },
                     "404": {
-                        "description": "Page not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Page not found"
                     },
                     "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Unprocessable Entity"
                     },
                     "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Internal server error"
                     }
                 }
             }

@@ -8,65 +8,34 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
 use Illuminate\Support\Facades\Hash;
 
-use OpenApi\Annotations as OA;
-
 /**
  * @OA\Post(
- *     path="/api/user/register",
- *     summary="Register a new user",
+ *     path="/api/v1/user/create",
+ *     summary="Create a User account",
  *     tags={"User"},
  *     @OA\RequestBody(
  *         required=true,
- *         @OA\JsonContent(
- *             required={"first_name", "last_name", "email", "password", "password_confirmation", 
- *                 "phone_number", "address"},
- *             @OA\Property(property="first_name", type="string"),
- *             @OA\Property(property="last_name", type="string"),
- *             @OA\Property(property="email", type="string", format="email"),
- *             @OA\Property(property="password", type="string", format="password"),
- *             @OA\Property(property="password_confirmation", type="string", format="password"),
- *             @OA\Property(property="avatar", type="string"),
- *             @OA\Property(property="address", type="string"),
- *             @OA\Property(property="phone_number", type="string"),
- *             @OA\Property(property="is_marketing", type="string")
- *         ),
- *     ),
- *     @OA\Response(
- *         response=200,
- *         description="User registered successfully",
- *         @OA\JsonContent(
- *             @OA\Property(property="user", type="object"),
- *             @OA\Property(property="token", type="string")
+ *         @OA\MediaType(
+ *             mediaType="application/x-www-form-urlencoded",
+ *             @OA\Schema(
+ *                 required={"first_name", "last_name", "email", "password", "password_confirmation", "phone_number", "address"},
+ *                 @OA\Property(property="first_name", type="string", description="User firstname"),
+ *                 @OA\Property(property="last_name", type="string", description="User lastname"),
+ *                 @OA\Property(property="email", type="string", description="User email"),
+ *                 @OA\Property(property="password", type="string", description="User password"),
+ *                 @OA\Property(property="password_confirmation", type="string", description="User password"),
+ *                 @OA\Property(property="avatar", type="string", description="Avatar image UUID"),
+ *                 @OA\Property(property="address", type="string",description="User main address"),
+ *                 @OA\Property(property="phone_number", type="string", description="User main phone number"),
+ *                 @OA\Property(property="is_marketing", type="string", description="User marketing preferences")
+ *             )
  *         )
  *     ),
- *     @OA\Response(
- *         response=401,
- *         description="Unauthorized",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string")
- *         )
- *     ),
- *     @OA\Response(
- *         response=404,
- *         description="Page not found",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string")
- *         )
- *     ),
- *     @OA\Response(
- *         response=422,
- *         description="Unprocessable Entity",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string")
- *         )
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Internal server error",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string")
- *         )
- *     )
+ *     @OA\Response(response=200,description="OK"),
+ *     @OA\Response(response=401,description="Unauthorized"),
+ *     @OA\Response(response=404,description="Page not found"),
+ *     @OA\Response(response=422,description="Unprocessable Entity"),
+ *     @OA\Response(response=500,description="Internal server error")
  * )
  */
 class CreateController extends Controller

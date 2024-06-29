@@ -8,11 +8,8 @@ namespace App\Http\Controllers;
  *     title="Petshop API Documentation",
  *     description="This is the API documentation for Petshop.",
  *     @OA\Contact(
+ *         name="Godwin (DeGod)",
  *         email="support@petshop-api.test"
- *     ),
- *     @OA\License(
- *         name="Apache 2.0",
- *         url="http://www.apache.org/licenses/LICENSE-2.0.html"
  *     )
  * )
  */
