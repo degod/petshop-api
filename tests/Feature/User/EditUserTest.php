@@ -14,11 +14,11 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use DateTimeImmutable;
 
-class ViewUserTest extends TestCase
+class EditUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testViewUser()
+    public function testEditUser()
     {
         // Create a test user
         $user = User::factory()->create([
@@ -58,15 +58,24 @@ class ViewUserTest extends TestCase
             ->with($token->toString())
             ->andReturn($user);
 
-        // Send the GET request with the Bearer token
+        $fakeData = [
+            'first_name' => $user->first_name.'_new',
+            'last_name' => $user->last_name.'_new',
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+            'password' => 'userpassword', // Use a hardcoded password as it's hashed
+            'password_confirmation' => 'userpassword', // Same as above
+            'address' => $user->address,
+            'avatar' => $user->uuid,
+            'is_marketing' => 1
+        ];
+
+        // Send the PUT request with the Bearer token
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token->toString(),
-        ])->get(route('user.view'));
+        ])->putJson(route('user.edit'), $fakeData);
 
-        // Assert the response status
         $response->assertStatus(200);
-
-        // Assert the JSON structure
         $response->assertJsonStructure([
             'success',
             'data' => [
@@ -77,17 +86,16 @@ class ViewUserTest extends TestCase
                 'phone_number',
                 'address',
                 'created_at',
-                'updated_at',
+                'updated_at'
             ],
             'error',
             'errors',
             'extra'
         ]);
-
-        // Assert the JSON content
         $response->assertJson([
             'data' => [
-                'email' => 'user@example.com'
+                'first_name' => $user->first_name.'_new',
+                'last_name' => $user->last_name.'_new',
             ]
         ]);
     }

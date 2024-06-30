@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUser;
+use App\Http\Requests\EditUser;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Services\JwtAuthService;
+use Illuminate\Http\JsonResponse;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\Hash;
+use App\Services\JwtAuthService;
 
 /**
- * @OA\Post(
- *     path="/api/v1/user/create",
- *     summary="Create a User account",
+ * @OA\Put(
+ *     path="/api/v1/user/edit",
  *     tags={"User"},
+ *     summary="Update a User account",
+ *     security={{"bearerAuth":{}}},
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\MediaType(
@@ -39,7 +40,7 @@ use Illuminate\Support\Facades\Hash;
  *     @OA\Response(response=500,description="Internal server error")
  * )
  */
-class CreateController extends Controller
+class EditController extends Controller
 {
     protected $userRepository;
     protected $jwtAuthService;
@@ -50,28 +51,19 @@ class CreateController extends Controller
         $this->jwtAuthService = $jwtAuthService;
     }
 
-    public function __invoke(StoreUser $request)
+    public function __invoke(EditUser $request): JsonResponse
     {
-        $response = new ResponseService();
         $validated = $request->validated();
 
-        $inputData = [
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'phone_number' => $validated['phone_number'],
-            'address' => $validated['address'],
-        ];
-        if(!empty($request['avatar']))
-            $inputData['avatar'] = $request['avatar'];
-        if(!empty($request['is_marketing']))
-            $inputData['is_marketing'] = $request['is_marketing'];
+        $response = new ResponseService();
+        $token = $request->bearerToken();
 
-        $user = $this->userRepository->create($inputData);
+        $userData = $this->jwtAuthService->authenticate($token);
+        $validated['uuid'] = $userData->uuid;
 
-        $token = $this->jwtAuthService->generateToken($user);
-        $user['token'] = $token;
+        $user = $this->userRepository->edit($validated);
+        unset($user['id']);
+        unset($user['is_admin']);
 
         return $response->success($user);
     }

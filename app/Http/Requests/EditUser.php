@@ -5,10 +5,13 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use App\Services\ResponseService;
+use App\Services\JwtAuthService;
 
-class StoreUser extends FormRequest
+class EditUser extends FormRequest
 {
+    public function __construct(private JwtAuthService $jwtAuthService){}
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,15 +25,26 @@ class StoreUser extends FormRequest
      */
     public function rules(): array
     {
+        $token = \Request::bearerToken() ?? null;
+        $user = $this->jwtAuthService->authenticate($token);
+
+        $userId = $user->id;
+
         return [
-            'first_name' => ['required', 'string', 'max:255', 'min:3'],
-            'last_name' => ['required', 'string', 'max:255', 'min:3'],
-            'email' => ['required', 'string', 'email', 'max:255', 'min:3', 'unique:users,email'],
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($userId)
+            ],
             'password' => ['required', 'string', 'confirmed', 'min:8'],
-            'avatar' => ['nullable', 'string', 'max:36'],
-            'address' => ['required', 'string', 'max:255', 'min:3'],
-            'phone_number' => ['required', 'string', 'max:20'],
-            'is_marketing' => ['nullable'],
+            'phone_number' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'avatar' => 'nullable|string|max:255',
+            'is_marketing' => 'nullable',
         ];
     }
 

@@ -34,39 +34,48 @@
                                 "properties": {
                                     "first_name": {
                                         "description": "User firstname",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "last_name": {
                                         "description": "User lastname",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "email": {
                                         "description": "User email",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "password": {
                                         "description": "User password",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "password_confirmation": {
                                         "description": "User password",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "avatar": {
                                         "description": "Avatar image UUID",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "address": {
                                         "description": "User main address",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "phone_number": {
                                         "description": "User main phone number",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     },
                                     "is_marketing": {
                                         "description": "User marketing preferences",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": ""
                                     }
                                 },
                                 "type": "object"
@@ -93,6 +102,103 @@
                 }
             }
         },
+        "/api/v1/user/edit": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update a User account",
+                "operationId": "0bd646c821bf193073acdf8dbf826f25",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "phone_number",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "User firstname",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "last_name": {
+                                        "description": "User lastname",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "password": {
+                                        "description": "User password",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "User password",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "avatar": {
+                                        "description": "Avatar image UUID",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "address": {
+                                        "description": "User main address",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "phone_number": {
+                                        "description": "User main phone number",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "is_marketing": {
+                                        "description": "User marketing preferences",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/login": {
             "post": {
                 "tags": [
@@ -112,10 +218,12 @@
                                 ],
                                 "properties": {
                                     "email": {
+                                        "description": "User email",
                                         "type": "string",
                                         "example": ""
                                     },
                                     "password": {
+                                        "description": "User password",
                                         "type": "string",
                                         "example": ""
                                     }

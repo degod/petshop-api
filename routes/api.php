@@ -6,6 +6,7 @@ use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\User\CreateController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\ViewController;
+use App\Http\Controllers\User\EditController;
 
 
 Route::prefix('v1')->group(function () {
@@ -16,6 +17,7 @@ Route::prefix('v1')->group(function () {
 
         Route::middleware([JwtMiddleware::class])->group(function () {
             Route::get('/', ViewController::class)->name('user.view');
+            Route::put('/edit', EditController::class)->name('user.edit');
         });
     });
 });

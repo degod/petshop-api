@@ -51,12 +51,20 @@ class LoginUserTest extends TestCase
 
         // Assert the JSON structure
         $response->assertJsonStructure([
-            'token'
+            'success',
+            'data' => [
+                'token'
+            ],
+            'error',
+            'errors',
+            'extra'
         ]);
 
         // Assert the token
         $response->assertJson([
-            'token' => 'mocked_jwt_token'
+            'data' => [
+                'token' => 'mocked_jwt_token'
+            ]
         ]);
     }
 }

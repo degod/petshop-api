@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Hash;
  *             mediaType="application/x-www-form-urlencoded",
  *             @OA\Schema(
  *                 required={"email", "password"},
- *                 @OA\Property(property="email", type="string", example=""),
- *                 @OA\Property(property="password", type="string", example="")
+ *                 @OA\Property(property="email", type="string", description="User email", example=""),
+ *                 @OA\Property(property="password", type="string", description="User password", example="")
  *             )
  *         )
  *     ),

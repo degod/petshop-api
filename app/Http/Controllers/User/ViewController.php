@@ -42,6 +42,8 @@ class ViewController extends Controller
         if (!$user) {
             return $response->error(401, "Unauthorized");
         }
+        unset($user['id']);
+        unset($user['is_admin']);
 
         return $response->success($user);
     }

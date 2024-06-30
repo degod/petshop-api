@@ -25,13 +25,30 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
+    /**
+     * Used to find user by email
+     */
     public function findByEmail(string $email): ?User
     {
-        return User::where('email', $email)->first();
+        return $this->user::where('email', $email)->first();
     }
 
+    /**
+     * Used to find user by uuid
+     */
     public function findByUuid(string $uuid): ?User
     {
-        return User::where('uuid', $uuid)->first();
+        return $this->user::where('uuid', $uuid)->first();
+    }
+
+    /**
+     * Used to edit a user details
+     */
+    public function edit(array $data): ?User
+    {
+        $user = $this->user::whereUuid($data['uuid'])->first();
+        $user->update($data);
+
+        return $user;
     }
 }

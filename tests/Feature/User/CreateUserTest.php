@@ -55,20 +55,26 @@ class CreateUserTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'user' => [
-                'id',
+            'success',
+            'data' => [
+                'uuid',
                 'first_name',
                 'last_name',
                 'email',
                 'phone_number',
                 'address',
                 'created_at',
-                'updated_at'
+                'updated_at',
+                'token'
             ],
-            'token'
+            'error',
+            'errors',
+            'extra'
         ]);
         $response->assertJson([
-            'token' => 'mocked_jwt_token'
+            'data' => [
+                'token' => 'mocked_jwt_token'
+            ]
         ]);
 
         $this->assertDatabaseHas('users', [
