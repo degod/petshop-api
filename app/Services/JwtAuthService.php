@@ -12,7 +12,6 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\Clock\SystemClock;
-use Lcobucci\JWT\Token\Plain;
 
 class JwtAuthService
 {

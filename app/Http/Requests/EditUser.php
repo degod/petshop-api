@@ -11,7 +11,9 @@ use App\Services\JwtAuthService;
 
 class EditUser extends FormRequest
 {
-    public function __construct(private JwtAuthService $jwtAuthService){}
+    public function __construct(private JwtAuthService $jwtAuthService)
+    {
+    }
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -61,8 +63,8 @@ class EditUser extends FormRequest
         $response = new ResponseService();
 
         throw new HttpResponseException($response->error(
-            422, 
-            "Failed to validate data", 
+            422,
+            "Failed to validate data",
             $validator->errors()
         ));
     }

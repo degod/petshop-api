@@ -5,7 +5,6 @@ namespace Tests\Feature\User;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
 use Mockery;
 use Illuminate\Support\Str;
 use App\Services\JwtAuthService;
@@ -30,7 +29,7 @@ class CreateUserTest extends TestCase
         $this->app->instance(JwtAuthService::class, $jwtAuthService);
 
         // Mocking the repository create method
-        $userRepository->shouldReceive('create')->andReturnUsing(function($inputData) {
+        $userRepository->shouldReceive('create')->andReturnUsing(function ($inputData) {
             $inputData['uuid'] = Str::uuid();
             return User::create($inputData);
         });

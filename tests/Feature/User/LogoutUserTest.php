@@ -13,11 +13,11 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use DateTimeImmutable;
 
-class EditUserTest extends TestCase
+class LogoutUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testEditUser()
+    public function testLogoutUser()
     {
         // Create a test user
         $user = User::factory()->create([
@@ -47,6 +47,11 @@ class EditUserTest extends TestCase
         $jwtAuthService = Mockery::mock(JwtAuthService::class);
         $this->app->instance(JwtAuthService::class, $jwtAuthService);
 
+        // Mocking the JwtAuthService revokeToken method
+        $jwtAuthService->shouldReceive('revokeToken')
+            ->with($token->toString())
+            ->andReturn(true);
+
         // Mocking the JwtAuthService decodeToken method
         $jwtAuthService->shouldReceive('decodeToken')
             ->with($token->toString())
@@ -57,45 +62,30 @@ class EditUserTest extends TestCase
             ->with($token->toString())
             ->andReturn($user);
 
-        $fakeData = [
-            'first_name' => $user->first_name.'_new',
-            'last_name' => $user->last_name.'_new',
-            'email' => $user->email,
-            'phone_number' => $user->phone_number,
-            'password' => 'userpassword', // Use a hardcoded password as it's hashed
-            'password_confirmation' => 'userpassword', // Same as above
-            'address' => $user->address,
-            'avatar' => $user->uuid,
-            'is_marketing' => 1
-        ];
-
-        // Send the PUT request with the Bearer token
+        // Send the GET request with the Bearer token
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token->toString(),
-        ])->putJson(route('user.edit'), $fakeData);
+        ])->getJson(route('user.logout'));
 
+        // Assert the response status
         $response->assertStatus(200);
+
+        // Assert the JSON structure
         $response->assertJsonStructure([
             'success',
-            'data' => [
-                'uuid',
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'created_at',
-                'updated_at'
-            ],
+            'data',
             'error',
             'errors',
             'extra'
         ]);
+
+        // Assert the success message
         $response->assertJson([
-            'data' => [
-                'first_name' => $user->first_name.'_new',
-                'last_name' => $user->last_name.'_new',
-            ]
+            'success' => 1,
+            'data' => [],
+            'error' => null,
+            'errors' => [],
+            'extra' => []
         ]);
     }
 }

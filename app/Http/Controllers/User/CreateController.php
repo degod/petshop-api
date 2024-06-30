@@ -63,10 +63,12 @@ class CreateController extends Controller
             'phone_number' => $validated['phone_number'],
             'address' => $validated['address'],
         ];
-        if(!empty($request['avatar']))
+        if(!empty($request['avatar'])) {
             $inputData['avatar'] = $request['avatar'];
-        if(!empty($request['is_marketing']))
+        }
+        if(!empty($request['is_marketing'])) {
             $inputData['is_marketing'] = $request['is_marketing'];
+        }
 
         $user = $this->userRepository->create($inputData);
 

@@ -41,8 +41,8 @@ class LoginUser extends FormRequest
         $response = new ResponseService();
 
         throw new HttpResponseException($response->error(
-            422, 
-            "Failed to validate data", 
+            422,
+            "Failed to validate data",
             $validator->errors()
         ));
     }

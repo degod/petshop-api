@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
  *         email="support@petshop-api.test"
  *     )
  * )
- * 
+ *
  * @OA\SecurityScheme(
  *    securityScheme="bearerAuth",
  *    in="header",

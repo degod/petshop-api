@@ -21,11 +21,15 @@ class JwtMiddleware
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        if (!$token) return $response->error(401, "Unauthorized");
+        if (!$token) {
+            return $response->error(401, "Unauthorized");
+        }
 
         $decoded = $this->jwtAuthService->decodeToken($token);
 
-        if (!$decoded) return $response->error(401, "Unauthorized");
+        if (!$decoded) {
+            return $response->error(401, "Unauthorized");
+        }
 
         $claims = $decoded->claims();
         $request->attributes->add(['user' => $claims->get('sub')]);

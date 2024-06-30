@@ -1,13 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\User\CreateController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\ViewController;
 use App\Http\Controllers\User\EditController;
-
+use App\Http\Controllers\User\LogoutController;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
@@ -18,6 +17,7 @@ Route::prefix('v1')->group(function () {
         Route::middleware([JwtMiddleware::class])->group(function () {
             Route::get('/', ViewController::class)->name('user.view');
             Route::put('/edit', EditController::class)->name('user.edit');
+            Route::get('/logout', LogoutController::class)->name('user.logout');
         });
     });
 });

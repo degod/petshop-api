@@ -17,7 +17,7 @@ class ResponseService
         ], 200);
     }
 
-    public function error(int $code=401, string $errorMessage="Unauthorized", array|object $errors=[]): JsonResponse
+    public function error(int $code = 401, string $errorMessage = "Unauthorized", array|object $errors = []): JsonResponse
     {
         return response()->json([
             'success' => 0,
