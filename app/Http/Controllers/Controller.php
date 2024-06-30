@@ -12,6 +12,15 @@ namespace App\Http\Controllers;
  *         email="support@petshop-api.test"
  *     )
  * )
+ * 
+ * @OA\SecurityScheme(
+ *    securityScheme="bearerAuth",
+ *    in="header",
+ *    name="bearerAuth",
+ *    type="http",
+ *    scheme="bearer",
+ *    bearerFormat="JWT",
+ * )
  */
 abstract class Controller
 {

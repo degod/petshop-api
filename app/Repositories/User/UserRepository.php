@@ -29,4 +29,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::where('email', $email)->first();
     }
+
+    public function findByUuid(string $uuid): ?User
+    {
+        return User::where('uuid', $uuid)->first();
+    }
 }

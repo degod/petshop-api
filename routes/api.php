@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\User\CreateController;
 use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\User\ViewController;
 
 
 Route::prefix('v1')->group(function () {
@@ -14,7 +15,7 @@ Route::prefix('v1')->group(function () {
         Route::post('login', LoginController::class)->name('user.login');
 
         Route::middleware([JwtMiddleware::class])->group(function () {
-            // Route::post('/create', [CreateController::class])->name('user.create');
+            Route::get('/', ViewController::class)->name('user.view');
         });
     });
 });
