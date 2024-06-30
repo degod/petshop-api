@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
+use App\Services\ResponseService;
 use Illuminate\Http\Request;
 
 /**
@@ -33,14 +34,15 @@ class ViewController extends Controller
 
     public function __invoke(Request $request)
     {
+        $response = new ResponseService();
         $token = $request->bearerToken();
 
         $user = $this->jwtAuthService->authenticate($token);
 
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return $response->error(401, "Unauthorized");
         }
 
-        return response()->json($user, 200);
+        return $response->success($user);
     }
 }

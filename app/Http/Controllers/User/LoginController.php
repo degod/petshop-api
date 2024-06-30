@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUser;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
+use App\Services\ResponseService;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -45,16 +46,17 @@ class LoginController extends Controller
 
     public function __invoke(LoginUser $request)
     {
+        $response = new ResponseService();
         $credentials = $request->only('email', 'password');
 
         $user = $this->userRepository->findByEmail($credentials['email']);
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return $response->error(401, "Invalid credentials");
         }
 
         $token = $this->jwtAuthService->generateToken($user);
 
-        return response()->json(['token' => $token], 200);
+        return $response->success(['token' => $token]);
     }
 }

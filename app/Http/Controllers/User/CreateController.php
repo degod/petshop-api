@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUser;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
+use App\Services\ResponseService;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -51,6 +52,7 @@ class CreateController extends Controller
 
     public function __invoke(StoreUser $request)
     {
+        $response = new ResponseService();
         $validated = $request->validated();
 
         $inputData = [
@@ -69,10 +71,8 @@ class CreateController extends Controller
         $user = $this->userRepository->create($inputData);
 
         $token = $this->jwtAuthService->generateToken($user);
+        $user['token'] = $token;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], 200);
+        return $response->success($user);
     }
 }

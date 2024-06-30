@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Services\JwtAuthService;
+use App\Services\ResponseService;
 use Illuminate\Http\Request;
 
 class JwtMiddleware
@@ -17,17 +18,14 @@ class JwtMiddleware
 
     public function handle(Request $request, Closure $next)
     {
+        $response = new ResponseService();
         $token = $request->bearerToken();
 
-        if (!$token) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        if (!$token) return $response->error(401, "Unauthorized");
 
         $decoded = $this->jwtAuthService->decodeToken($token);
 
-        if (!$decoded) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        if (!$decoded) return $response->error(401, "Unauthorized");
 
         $claims = $decoded->claims();
         $request->attributes->add(['user' => $claims->get('sub')]);
