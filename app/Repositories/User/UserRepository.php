@@ -51,4 +51,15 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    /**
+     * Used to delete a user details
+     */
+    public function delete(int $userId): ?bool
+    {
+        $user = $this->user::find($userId);
+        if (!$user) return false;
+
+        return $user->delete();
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\ViewController;
 use App\Http\Controllers\User\EditController;
 use App\Http\Controllers\User\LogoutController;
+use App\Http\Controllers\User\DeleteController;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
@@ -18,6 +19,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/', ViewController::class)->name('user.view');
             Route::put('/edit', EditController::class)->name('user.edit');
             Route::get('/logout', LogoutController::class)->name('user.logout');
+            Route::delete('/', DeleteController::class)->name('user.delete');
         });
     });
 });
