@@ -8,12 +8,14 @@ use App\Http\Controllers\User\ViewController;
 use App\Http\Controllers\User\EditController;
 use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\DeleteController;
+use App\Http\Controllers\User\ForgotPasswordController;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
     Route::prefix('user')->group(function () {
         Route::post('create', CreateController::class)->name('user.create');
         Route::post('login', LoginController::class)->name('user.login');
+        Route::post('/forgot-password', ForgotPasswordController::class)->name('user.forgot-password');
 
         Route::middleware([JwtMiddleware::class])->group(function () {
             Route::get('/', ViewController::class)->name('user.view');
