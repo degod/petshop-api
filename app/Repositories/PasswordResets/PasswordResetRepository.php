@@ -3,6 +3,7 @@
 namespace App\Repositories\PasswordResets;
 
 use App\Models\PasswordReset;
+use Carbon\Carbon;
 
 class PasswordResetRepository implements PasswordResetRepositoryInterface
 {
@@ -38,5 +39,24 @@ class PasswordResetRepository implements PasswordResetRepositoryInterface
     public function deleteByEmail(string $email): bool
     {
         return $this->passwordReset::where('email', $email)->delete();
+    }
+
+    /**
+     * Used to fetch token row by email and token
+     */
+    public function findForEmailAndToken(string $email, string $token): ?PasswordReset
+    {
+        return $this->passwordReset::where('email', $email)
+            ->where('token', $token)
+            ->where('created_at', '>', Carbon::now()->subHours(config('auth.passwords.users.expire')))
+            ->first();
+    }
+
+    /**
+     * Used to delete a password reset token by email and token
+     */
+    public function deleteByEmailAndToken(string $email, string $token): bool
+    {
+        return $this->passwordReset::where(['email' => $email, 'token' => $token])->delete();
     }
 }

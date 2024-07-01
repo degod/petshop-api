@@ -7,7 +7,7 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Repositories\PasswordResets\PasswordResetRepositoryInterface;
 use App\Services\ResponseService;
 use Illuminate\Http\JsonResponse;
-use \Illuminate\Support\Str;
+use Illuminate\Support\Str;
 
 /**
  * @OA\Post(
@@ -53,6 +53,6 @@ class ForgotPasswordController extends Controller
 
         // Send password reset link to user's email (implement your email sending logic here)
 
-        return $response->success(['reset_token'=>$token]);
+        return $response->success(['reset_token' => $token]);
     }
 }
