@@ -10,6 +10,7 @@ use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\User\DeleteController;
 use App\Http\Controllers\User\ForgotPasswordController;
 use App\Http\Controllers\User\ResetPasswordController;
+use App\Http\Controllers\MainPage\PromotionsController;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
@@ -25,5 +26,10 @@ Route::prefix('v1')->group(function () {
             Route::get('/logout', LogoutController::class)->name('user.logout');
             Route::delete('/', DeleteController::class)->name('user.delete');
         });
+    });
+
+    // MAIN-PAGE GROUPED ROUTES
+    Route::prefix('main')->group(function () {
+        Route::get('/promotions', PromotionsController::class)->name('main.promotions');
     });
 });

@@ -6,13 +6,17 @@ use App\Models\File;
 
 class FileRepository implements FileRepositoryInterface
 {
+    public function __construct(private File $file)
+    {
+    }
+
     public function findById($id): ?File
     {
-        return File::find($id);
+        return $this->file->find($id);
     }
 
     public function findByUuid($uuid): ?File
     {
-        return File::where('uuid', $uuid)->first();
+        return $this->file->where('uuid', $uuid)->first();
     }
 }
