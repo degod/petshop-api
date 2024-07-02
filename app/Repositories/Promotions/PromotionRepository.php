@@ -13,12 +13,16 @@ class PromotionRepository implements PromotionRepositoryInterface
 
     public function findById($id): ?Promotion
     {
-        return $this->promotion->find($id);
+        return $this->promotion
+            ->select('uuid', 'title', 'content', 'metadata', 'created_at', 'updated_at')
+            ->find($id);
     }
 
     public function findByUuid($uuid): ?Promotion
     {
-        return $this->promotion->where('uuid', $uuid)->first();
+        return $this->promotion->where('uuid', $uuid)
+            ->select('uuid', 'title', 'content', 'metadata', 'created_at', 'updated_at')
+            ->first();
     }
 
     public function getPromotions(array $params): LengthAwarePaginator
@@ -52,6 +56,6 @@ class PromotionRepository implements PromotionRepositoryInterface
 
         $limit = $params['limit'] ?? 10;
 
-        return $query->paginate($limit);
+        return $query->select('uuid', 'title', 'content', 'metadata', 'created_at', 'updated_at')->paginate($limit);
     }
 }

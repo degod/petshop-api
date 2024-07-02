@@ -10,6 +10,8 @@ use App\Repositories\Files\FileRepository;
 use App\Repositories\Files\FileRepositoryInterface;
 use App\Repositories\Promotions\PromotionRepository;
 use App\Repositories\Promotions\PromotionRepositoryInterface;
+use App\Repositories\Posts\PostRepository;
+use App\Repositories\Posts\PostRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -23,7 +25,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PasswordResetRepositoryInterface::class, PasswordResetRepository::class);
         $this->app->bind(FileRepositoryInterface::class, FileRepository::class);
         $this->app->bind(PromotionRepositoryInterface::class, PromotionRepository::class);
-
+        $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
     }
 
     /**
