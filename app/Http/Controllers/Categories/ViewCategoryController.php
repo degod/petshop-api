@@ -46,7 +46,7 @@ class ViewCategoryController extends Controller
                 return $response->error(404, 'Category not found');
             }
 
-            return $response->success($category);
+            return $response->success($category->makeHidden('id'));
         } catch (\Exception $e) {
             return $response->error(500, 'Failed to fetch category');
         }

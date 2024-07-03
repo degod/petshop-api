@@ -14,6 +14,10 @@ use App\Repositories\Posts\PostRepository;
 use App\Repositories\Posts\PostRepositoryInterface;
 use App\Repositories\Categories\CategoryRepository;
 use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\Brands\BrandRepository;
+use App\Repositories\Brands\BrandRepositoryInterface;
+use App\Repositories\Products\ProductRepository;
+use App\Repositories\Products\ProductRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -29,6 +33,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PromotionRepositoryInterface::class, PromotionRepository::class);
         $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+        $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
     }
 
     /**

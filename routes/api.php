@@ -18,6 +18,11 @@ use App\Http\Controllers\Categories\EditCategoryController;
 use App\Http\Controllers\Categories\ViewCategoryController;
 use App\Http\Controllers\Categories\ListCategoryController;
 use App\Http\Controllers\Categories\DeleteCategoryController;
+use App\Http\Controllers\Products\CreateProductController;
+use App\Http\Controllers\Products\EditProductController;
+use App\Http\Controllers\Products\ListProductController;
+use App\Http\Controllers\Products\ViewProductController;
+use App\Http\Controllers\Products\DeleteProductController;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
@@ -51,6 +56,18 @@ Route::prefix('v1')->group(function () {
             Route::post('create', CreateCategoryController::class)->name('categories.create');
             Route::put('{uuid}', EditCategoryController::class)->name('categories.edit');
             Route::delete('{uuid}', DeleteCategoryController::class)->name('categories.delete');
+        });
+    });
+
+    // PRODUCT GROUPED ROUTES
+    Route::get('/products', ListProductController::class)->name('products.list');
+    Route::prefix('product')->group(function () {
+        Route::get('{uuid}', ViewProductController::class)->name('products.view');
+
+        Route::middleware([JwtMiddleware::class])->group(function () {
+            Route::post('create', CreateProductController::class)->name('products.create');
+            Route::put('{uuid}', EditProductController::class)->name('products.edit');
+            Route::delete('{uuid}', DeleteProductController::class)->name('products.delete');
         });
     });
 });

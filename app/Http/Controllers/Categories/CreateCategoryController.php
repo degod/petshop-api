@@ -46,6 +46,6 @@ class CreateCategoryController extends Controller
         $validated = $request->validated();
         $category = $this->categoryRepository->create($validated);
 
-        return $this->responseService->success($category->toArray());
+        return $this->responseService->success($category->makeHidden('id')->toArray());
     }
 }

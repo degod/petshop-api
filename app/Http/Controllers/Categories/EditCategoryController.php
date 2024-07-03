@@ -70,6 +70,6 @@ class EditCategoryController extends Controller
             return $response->error(422, 'Failed to update category');
         }
 
-        return $response->success($updatedCategory);
+        return $response->success($updatedCategory->makeHidden('id'));
     }
 }
