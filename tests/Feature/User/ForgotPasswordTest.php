@@ -10,7 +10,7 @@ class ForgotPasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testForgotPassword()
+    public function testForgotPassword(): void
     {
         // Create a test user
         $user = User::factory()->create([

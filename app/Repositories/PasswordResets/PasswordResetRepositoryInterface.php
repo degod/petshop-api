@@ -6,6 +6,12 @@ use App\Models\PasswordReset;
 
 interface PasswordResetRepositoryInterface
 {
+    /**
+     * Used to create a password reset token
+     * 
+     * @param  array<string|mixed> $data
+     * @return PasswordReset|null
+     */
     public function create(array $data): ?PasswordReset;
 
     public function findByEmail(string $email): ?PasswordReset;

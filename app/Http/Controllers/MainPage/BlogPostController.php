@@ -28,14 +28,11 @@ use App\Services\ResponseService;
  */
 class BlogPostController extends Controller
 {
-    private PostRepositoryInterface $postRepository;
-
-    public function __construct(PostRepositoryInterface $postRepository)
+    public function __construct(private PostRepositoryInterface $postRepository)
     {
-        $this->postRepository = $postRepository;
     }
 
-    public function __invoke(Request $request, $uuid): JsonResponse
+    public function __invoke(Request $request, string $uuid): JsonResponse
     {
         $response = new ResponseService();
         $post = $this->postRepository->findByUuid($uuid);

@@ -14,6 +14,7 @@ class EditUser extends FormRequest
     public function __construct(private JwtAuthService $jwtAuthService)
     {
     }
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,13 +25,15 @@ class EditUser extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     * 
+     * @return array<string|mixed>
      */
     public function rules(): array
     {
         $token = \Request::bearerToken() ?? null;
-        $user = $this->jwtAuthService->authenticate($token);
+        $user = $token ? $this->jwtAuthService->authenticate($token): null;
 
-        $userId = $user->id;
+        $userId = $user ? $user->id: null;
 
         return [
             'first_name' => 'required|string|max:255',

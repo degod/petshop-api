@@ -6,17 +6,15 @@ use Closure;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class JwtMiddleware
 {
-    protected $jwtAuthService;
-
-    public function __construct(JwtAuthService $jwtAuthService)
+    public function __construct(private JwtAuthService $jwtAuthService)
     {
-        $this->jwtAuthService = $jwtAuthService;
     }
 
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): JsonResponse|Closure
     {
         $response = new ResponseService();
         $token = $request->bearerToken();

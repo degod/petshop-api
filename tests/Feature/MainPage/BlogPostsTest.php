@@ -10,7 +10,7 @@ class BlogPostsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testGetBlogPosts()
+    public function testGetBlogPosts(): void
     {
         Post::factory()->count(10)->create();
 

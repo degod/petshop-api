@@ -8,6 +8,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\PasswordResets\PasswordResetRepositoryInterface;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Post(
@@ -36,16 +37,11 @@ use Illuminate\Support\Facades\Hash;
  */
 class ResetPasswordController extends Controller
 {
-    protected $userRepository;
-    protected $passwordResetRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository, PasswordResetRepositoryInterface $passwordResetRepository)
+    public function __construct(private UserRepositoryInterface $userRepository, private PasswordResetRepositoryInterface $passwordResetRepository)
     {
-        $this->userRepository = $userRepository;
-        $this->passwordResetRepository = $passwordResetRepository;
     }
 
-    public function __invoke(ResetPasswordRequest $request)
+    public function __invoke(ResetPasswordRequest $request): JsonResponse
     {
         $response = new ResponseService();
         $validated = $request->validated();

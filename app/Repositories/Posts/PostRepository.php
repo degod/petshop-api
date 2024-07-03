@@ -25,6 +25,12 @@ class PostRepository implements PostRepositoryInterface
             ->first();
     }
 
+    /**
+     * Get all post
+     * 
+     * @param  array<string|mixed> $params
+     * @return LengthAwarePaginator<Post>
+     */
     public function getPosts(array $params): LengthAwarePaginator
     {
         $query = $this->post->newQuery();

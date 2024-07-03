@@ -7,7 +7,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface PromotionRepositoryInterface
 {
-    public function findById($id): ?Promotion;
-    public function findByUuid($uuid): ?Promotion;
+    public function findById(int $id): ?Promotion;
+    public function findByUuid(string $uuid): ?Promotion;
+
+    /**
+     * Get all promotions
+     * @param  array<string, mixed>  $params
+     * @return LengthAwarePaginator<Promotion>       
+     */
     public function getPromotions(array $params): LengthAwarePaginator;
 }

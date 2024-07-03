@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Products\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Services\ResponseService;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Get(
@@ -70,20 +71,15 @@ use App\Services\ResponseService;
  */
 class ListProductController extends Controller
 {
-    private $productRepository;
-    private $responseService;
-
-    public function __construct(ProductRepositoryInterface $productRepository, ResponseService $responseService)
+    public function __construct(private ProductRepositoryInterface $productRepository)
     {
-        $this->productRepository = $productRepository;
-        $this->responseService = $responseService;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $params = $request->all();
         $products = $this->productRepository->getAllProducts($params);
 
-        return $products;
+        return response()->json($products);
     }
 }

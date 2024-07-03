@@ -15,7 +15,7 @@ class ResetPasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testResetPassword()
+    public function testResetPassword(): void
     {
         // Create a test user
         $user = User::factory()->create([

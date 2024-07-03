@@ -7,6 +7,7 @@ use App\Http\Requests\EditCategoryRequest;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Services\ResponseService;
 use Illuminate\Support\Str;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Put(
@@ -39,14 +40,11 @@ use Illuminate\Support\Str;
  */
 class EditCategoryController extends Controller
 {
-    protected $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
-    public function __invoke(string $uuid, EditCategoryRequest $request)
+    public function __invoke(string $uuid, EditCategoryRequest $request): JsonResponse
     {
         $response = new ResponseService();
         $validated = $request->validated();
@@ -61,14 +59,10 @@ class EditCategoryController extends Controller
         // Update category data
         $categoryData = [
             'title' => $validated['title'],
-            'slug' => Str::slug($validated['title']), // Example: Generate slug from title
+            'slug' => Str::slug($validated['title']),
         ];
 
         $updatedCategory = $this->categoryRepository->update($categoryData, $uuid);
-
-        if (!$updatedCategory) {
-            return $response->error(422, 'Failed to update category');
-        }
 
         return $response->success($updatedCategory->makeHidden('id'));
     }

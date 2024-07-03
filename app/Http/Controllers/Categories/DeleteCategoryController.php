@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Services\ResponseService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Delete(
@@ -28,14 +29,11 @@ use Illuminate\Http\Request;
  */
 class DeleteCategoryController extends Controller
 {
-    protected $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
-    public function __invoke(Request $request, $uuid)
+    public function __invoke(Request $request, string $uuid): JsonResponse
     {
         $response = new ResponseService();
 

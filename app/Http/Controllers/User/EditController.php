@@ -42,13 +42,8 @@ use App\Services\JwtAuthService;
  */
 class EditController extends Controller
 {
-    protected $userRepository;
-    protected $jwtAuthService;
-
-    public function __construct(UserRepositoryInterface $userRepository, JwtAuthService $jwtAuthService)
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
     {
-        $this->userRepository = $userRepository;
-        $this->jwtAuthService = $jwtAuthService;
     }
 
     public function __invoke(EditUser $request): JsonResponse
@@ -58,13 +53,18 @@ class EditController extends Controller
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        $userData = $this->jwtAuthService->authenticate($token);
-        $validated['uuid'] = $userData->uuid;
+        if($token){
+            $userData = $this->jwtAuthService->authenticate($token);
+            $validated['uuid'] = $userData ? $userData->uuid: null;
 
-        $user = $this->userRepository->edit($validated);
-        unset($user['id']);
-        unset($user['is_admin']);
+            $user = $this->userRepository->edit($validated);
+            unset($user['id']);
+            unset($user['is_admin']);
 
-        return $response->success($user);
+            if($user) return $response->success($user);
+            else return $response->error(401, "Unauthorized");
+        }else{
+            return $response->error(401, "Unauthorized");
+        }
     }
 }

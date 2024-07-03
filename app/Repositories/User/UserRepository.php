@@ -16,6 +16,9 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * Used to insert user data
+     * 
+     * @param array<string|mixed> $data
+     * @return User
      */
     public function create(array $data): User
     {
@@ -42,12 +45,16 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Used to edit a user details
+     * Edit user
+     * 
+     * @param  array<string|mixed>  $data
+     * @return User|null
      */
     public function edit(array $data): ?User
     {
         $user = $this->user::whereUuid($data['uuid'])->first();
-        $user->update($data);
+
+        if($user) $user->update($data);
 
         return $user;
     }

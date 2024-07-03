@@ -12,16 +12,22 @@ class ProductRepository implements ProductRepositoryInterface
     {
     }
 
-    public function findById($id): ?Product
+    public function findById(int $id): ?Product
     {
         return $this->product->find($id);
     }
 
-    public function findByUuid($uuid): ?Product
+    public function findByUuid(string $uuid): ?Product
     {
         return $this->product->where('uuid', $uuid)->first();
     }
 
+    /**
+     * Get all products with optional filters and pagination.
+     *
+     * @param array<string, mixed> $params
+     * @return LengthAwarePaginator<Product>
+     */
     public function getAllProducts(array $params): LengthAwarePaginator
     {
         $query = $this->product->newQuery();
@@ -60,13 +66,19 @@ class ProductRepository implements ProductRepositoryInterface
         return $query->paginate($limit, ['*'], 'page', $page);
     }
 
+    /**
+     * Create product
+     * 
+     * @param  array<string, mixed>  $data
+     * @return Product      
+     */
     public function create(array $data): Product
     {
         $data['uuid'] = (string) Str::uuid();
         return $this->product->create($data);
     }
 
-    public function deleteByUuid(string $uuid): bool
+    public function deleteByUuid(string $uuid): ?bool
     {
         $product = $this->findByUuid($uuid);
 
@@ -75,5 +87,18 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
         return $product->delete();
+    }
+
+    /**
+     * Update a product with the given data.
+     *
+     * @param Product $product
+     * @param array<string|mixed> $data
+     * @return Product
+     */
+    public function update(Product $product, array $data): Product
+    {
+        $product->update($data);
+        return $product;
     }
 }

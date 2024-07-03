@@ -24,13 +24,8 @@ use App\Services\JwtAuthService;
  */
 class DeleteController extends Controller
 {
-    protected $userRepository;
-    protected $jwtAuthService;
-
-    public function __construct(UserRepositoryInterface $userRepository, JwtAuthService $jwtAuthService)
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
     {
-        $this->userRepository = $userRepository;
-        $this->jwtAuthService = $jwtAuthService;
     }
 
     public function __invoke(Request $request): JsonResponse
@@ -38,7 +33,10 @@ class DeleteController extends Controller
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        $user = $this->jwtAuthService->authenticate($token);
+        $user = $token ? $this->jwtAuthService->authenticate($token): null;
+        if (!$user) {
+            return $response->error(401, "Unauthorized");
+        }
 
         if ($this->userRepository->delete($user->id)) {
             return $response->success([]);

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Mockery;
-use App\Services\JwtAuthService;
+use App\Services\JwtAuthServiceInterface;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -17,7 +17,7 @@ class ViewUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testViewUser()
+    public function testViewUser(): void
     {
         // Create a test user
         $user = User::factory()->create([
@@ -35,24 +35,24 @@ class ViewUserTest extends TestCase
         $token = $config->builder()
             ->issuedBy(env('APP_NAME'))
             ->permittedFor(env('APP_NAME'))
-            ->identifiedBy('mocked_jwt_token_jti', true)
+            ->identifiedBy('mocked_jwt_token_jti')
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
-            ->relatedTo($user->id)
+            ->relatedTo((string) $user->id)
             ->withClaim('user_uuid', $user->uuid)
             ->getToken($config->signer(), $config->signingKey());
 
-        // Mock the JwtAuthService
-        $jwtAuthService = Mockery::mock(JwtAuthService::class);
-        $this->app->instance(JwtAuthService::class, $jwtAuthService);
+        // Mock the JwtAuthServiceInterface
+        $jwtAuthService = Mockery::mock(JwtAuthServiceInterface::class);
+        $this->app->instance(JwtAuthServiceInterface::class, $jwtAuthService);
 
-        // Mocking the JwtAuthService decodeToken method
+        // Mocking the JwtAuthServiceInterface decodeToken method
         $jwtAuthService->shouldReceive('decodeToken')
             ->with($token->toString())
             ->andReturn($token);
 
-        // Mocking the JwtAuthService authenticate method
+        // Mocking the JwtAuthServiceInterface authenticate method
         $jwtAuthService->shouldReceive('authenticate')
             ->with($token->toString())
             ->andReturn($user);

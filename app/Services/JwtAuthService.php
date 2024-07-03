@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\JwtToken;
+use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Str;
 use Lcobucci\JWT\Configuration;
@@ -12,14 +13,14 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\Clock\SystemClock;
+use Lcobucci\JWT\Token;
 
-class JwtAuthService
+class JwtAuthService implements JwtAuthServiceInterface
 {
-    private $secretKey;
-    private $config;
-    protected $userRepository;
+    private string $secretKey;
+    private Configuration $config;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {
         $this->secretKey = env('JWT_SECRET');
         $this->config = Configuration::forSymmetricSigner(
@@ -33,11 +34,9 @@ class JwtAuthService
             new PermittedFor(env('APP_NAME')),
             new ValidAt(SystemClock::fromUTC())
         );
-
-        $this->userRepository = $userRepository;
     }
 
-    public function generateToken($user)
+    public function generateToken(User $user): ?string
     {
         $uniqueId = Str::uuid();
         $now = new \DateTimeImmutable();
@@ -45,11 +44,11 @@ class JwtAuthService
         $token = $this->config->builder()
             ->issuedBy(env('APP_NAME'))
             ->permittedFor(env('APP_NAME'))
-            ->identifiedBy($uniqueId, true)
+            ->identifiedBy($uniqueId)
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
-            ->relatedTo($user->id)
+            ->relatedTo((string) $user->id)
             ->withClaim('user_uuid', $user->uuid)
             ->getToken($this->config->signer(), $this->config->signingKey());
 
@@ -63,7 +62,7 @@ class JwtAuthService
         return $token->toString();
     }
 
-    public function decodeToken($token)
+    public function decodeToken(string $token): ?Token
     {
         try {
             $parsedToken = $this->config->parser()->parse($token);
@@ -74,19 +73,13 @@ class JwtAuthService
                 throw new \Exception('Invalid token');
             }
 
-            $storedToken = JwtToken::where('unique_id', $parsedToken->claims()->get('jti'))->first();
-
-            if (!$storedToken) {
-                return null;
-            }
-
             return $parsedToken;
         } catch (\Exception $e) {
             return null;
         }
     }
 
-    public function revokeToken($token)
+    public function revokeToken(string $token): void
     {
         $decoded = $this->decodeToken($token);
 
@@ -95,7 +88,7 @@ class JwtAuthService
         }
     }
 
-    public function authenticate($token)
+    public function authenticate(string $token): ?User
     {
         $decodedToken = $this->decodeToken($token);
 
@@ -104,7 +97,6 @@ class JwtAuthService
         }
 
         $user_uuid = $decodedToken->claims()->get('user_uuid');
-
         if (!$user_uuid) {
             return null;
         }

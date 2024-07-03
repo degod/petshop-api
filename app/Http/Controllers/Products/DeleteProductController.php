@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Services\ResponseService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Delete(
@@ -29,16 +30,11 @@ use Illuminate\Http\Request;
  */
 class DeleteProductController extends Controller
 {
-    private $productRepository;
-    private $responseService;
-
-    public function __construct(ProductRepositoryInterface $productRepository, ResponseService $responseService)
+    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService)
     {
-        $this->productRepository = $productRepository;
-        $this->responseService = $responseService;
     }
 
-    public function __invoke(string $uuid)
+    public function __invoke(string $uuid): JsonResponse
     {
         $product = $this->productRepository->findByUuid($uuid);
         if (!$product) {

@@ -1,0 +1,23 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - tests/
+    level: 8
+
+    excludePaths:
+        - ./app\Services\ResponseService.php
+
+    checkMissingIterableValueType: true
+    checkUninitializedProperties: true
+    checkUnionTypes: true
+    inferPrivatePropertyTypeFromConstructor: true
+    
+    ignoreErrors:
+        - '#Call to an undefined method Lcobucci\\JWT\\Token::claims#'
+        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::with#'
+        - '#Cannot access property \$password on App\\Models\\User\|null#'
+        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::andReturnUsing#'
+        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::andReturn#'

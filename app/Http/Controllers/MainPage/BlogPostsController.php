@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainPage;
 use App\Http\Controllers\Controller;
 use App\Repositories\Posts\PostRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Get(
@@ -44,14 +45,11 @@ use Illuminate\Http\Request;
  */
 class BlogPostsController extends Controller
 {
-    private PostRepositoryInterface $postRepository;
-
-    public function __construct(PostRepositoryInterface $postRepository)
+    public function __construct(private PostRepositoryInterface $postRepository)
     {
-        $this->postRepository = $postRepository;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $params = $request->only(['page', 'limit', 'sortBy', 'desc']);
         $posts = $this->postRepository->getPosts($params);

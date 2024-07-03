@@ -11,36 +11,42 @@ class PromotionRepository implements PromotionRepositoryInterface
     {
     }
 
-    public function findById($id): ?Promotion
+    public function findById(int $id): ?Promotion
     {
         return $this->promotion
             ->select('uuid', 'title', 'content', 'metadata', 'created_at', 'updated_at')
             ->find($id);
     }
 
-    public function findByUuid($uuid): ?Promotion
+    public function findByUuid(string $uuid): ?Promotion
     {
         return $this->promotion->where('uuid', $uuid)
             ->select('uuid', 'title', 'content', 'metadata', 'created_at', 'updated_at')
             ->first();
     }
 
+    /**
+     * Get all promotions
+     * 
+     * @param  array<string, mixed>  $params
+     * @return LengthAwarePaginator<Promotion>
+     */
     public function getPromotions(array $params): LengthAwarePaginator
     {
         $now = now();
-        
+
         $query = $this->promotion->newQuery();
 
         $query->when(
             isset($params['valid']) && is_bool($params['valid']),
             function ($query) use ($params, $now) {
                 if ($params['valid']) {
-                    $query->whereJsonContains('metadata->valid_from', '<=', $now)
-                          ->whereJsonContains('metadata->valid_to', '>=', $now);
+                    $query->where('metadata->valid_from', '<=', $now)
+                          ->where('metadata->valid_to', '>=', $now);
                 } else {
                     $query->where(function ($query) use ($now) {
-                        $query->whereJsonContains('metadata->valid_from', '>', $now)
-                              ->orWhereJsonContains('metadata->valid_to', '<', $now);
+                        $query->where('metadata->valid_from', '>', $now)
+                              ->orWhere('metadata->valid_to', '<', $now);
                     });
                 }
             }

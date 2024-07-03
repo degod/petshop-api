@@ -8,6 +8,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Post(
@@ -35,16 +36,11 @@ use Illuminate\Support\Facades\Hash;
  */
 class LoginController extends Controller
 {
-    protected $userRepository;
-    protected $jwtAuthService;
-
-    public function __construct(UserRepositoryInterface $userRepository, JwtAuthService $jwtAuthService)
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
     {
-        $this->userRepository = $userRepository;
-        $this->jwtAuthService = $jwtAuthService;
     }
 
-    public function __invoke(LoginUser $request)
+    public function __invoke(LoginUser $request): JsonResponse
     {
         $response = new ResponseService();
         $credentials = $request->only('email', 'password');

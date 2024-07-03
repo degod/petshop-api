@@ -10,7 +10,7 @@ class ListCategoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testListCategories()
+    public function testListCategories(): void
     {
         // Create a few test categories
         Category::factory()->count(3)->create();

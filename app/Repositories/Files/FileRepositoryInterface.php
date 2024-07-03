@@ -6,6 +6,6 @@ use App\Models\File;
 
 interface FileRepositoryInterface
 {
-    public function findById($id): ?File;
-    public function findByUuid($uuid): ?File;
+    public function findById(int $id): ?File;
+    public function findByUuid(string $uuid): ?File;
 }

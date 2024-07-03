@@ -15,7 +15,7 @@ class CreateUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testUserCreation()
+    public function testUserCreation(): void
     {
         // Instantiate Faker
         $faker = Faker::create();

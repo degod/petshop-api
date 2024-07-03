@@ -10,12 +10,12 @@ class FileRepository implements FileRepositoryInterface
     {
     }
 
-    public function findById($id): ?File
+    public function findById(int $id): ?File
     {
         return $this->file->find($id);
     }
 
-    public function findByUuid($uuid): ?File
+    public function findByUuid(string $uuid): ?File
     {
         return $this->file->where('uuid', $uuid)->first();
     }

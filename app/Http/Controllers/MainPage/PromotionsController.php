@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MainPage;
 use App\Http\Controllers\Controller;
 use App\Repositories\Promotions\PromotionRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Get(
@@ -50,14 +51,11 @@ use Illuminate\Http\Request;
  */
 class PromotionsController extends Controller
 {
-    private PromotionRepositoryInterface $promotionRepository;
-
-    public function __construct(PromotionRepositoryInterface $promotionRepository)
+    public function __construct(private PromotionRepositoryInterface $promotionRepository)
     {
-        $this->promotionRepository = $promotionRepository;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $params = $request->only(['page', 'limit', 'sortBy', 'desc', 'valid']);
         $promotions = $this->promotionRepository->getPromotions($params);

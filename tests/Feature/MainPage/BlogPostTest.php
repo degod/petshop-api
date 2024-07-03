@@ -10,7 +10,7 @@ class BlogPostTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testViewBlogPost()
+    public function testViewBlogPost(): void
     {
         $post = Post::factory()->create();
 
@@ -37,7 +37,7 @@ class BlogPostTest extends TestCase
                  ]);
     }
 
-    public function testViewNonExistingBlogPost()
+    public function testViewNonExistingBlogPost(): void
     {
         $response = $this->get(route('main.blog.view', ['uuid'=>'non-existing-uuid']));
 

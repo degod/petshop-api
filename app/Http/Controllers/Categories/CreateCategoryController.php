@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCategoryRequest;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Services\ResponseService;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Post(
@@ -32,16 +33,11 @@ use App\Services\ResponseService;
  */
 class CreateCategoryController extends Controller
 {
-    protected $categoryRepository;
-    protected $responseService;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository, ResponseService $responseService)
+    public function __construct(private CategoryRepositoryInterface $categoryRepository, private ResponseService $responseService)
     {
-        $this->categoryRepository = $categoryRepository;
-        $this->responseService = $responseService;
     }
 
-    public function __invoke(CreateCategoryRequest $request)
+    public function __invoke(CreateCategoryRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $category = $this->categoryRepository->create($validated);

@@ -48,16 +48,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class EditProductController extends Controller
 {
-    private $productRepository;
-    private $responseService;
-
-    public function __construct(ProductRepositoryInterface $productRepository, ResponseService $responseService)
+    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService)
     {
-        $this->productRepository = $productRepository;
-        $this->responseService = $responseService;
     }
 
-    public function __invoke(EditProductRequest $request, $uuid): JsonResponse
+    public function __invoke(EditProductRequest $request, string $uuid): JsonResponse
     {
         $data = $request->validated();
 

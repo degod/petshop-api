@@ -13,7 +13,7 @@ class ListProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testListProducts()
+    public function testListProducts(): void
     {
         $category = Category::factory()->create();
         $brand = Brand::factory()->create();

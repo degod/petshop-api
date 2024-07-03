@@ -5,7 +5,7 @@ namespace Tests\Feature\Categories;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Services\JwtAuthService;
+use App\Services\JwtAuthServiceInterface;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -15,7 +15,7 @@ class ViewCategoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testViewCategory()
+    public function testViewCategory(): void
     {
         // Create a test category
         $category = Category::factory()->create();
@@ -30,15 +30,15 @@ class ViewCategoryTest extends TestCase
         $token = $config->builder()
             ->issuedBy(env('APP_NAME'))
             ->permittedFor(env('APP_NAME'))
-            ->identifiedBy('mocked_jwt_token_jti', true)
+            ->identifiedBy('mocked_jwt_token_jti')
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
             ->withClaim('user_uuid', $category->uuid)
             ->getToken($config->signer(), $config->signingKey());
 
-        // Mock the JwtAuthService
-        $jwtAuthService = $this->mock(JwtAuthService::class);
+        // Mock the JwtAuthServiceInterface
+        $jwtAuthService = $this->mock(JwtAuthServiceInterface::class);
         $jwtAuthService->shouldReceive('decodeToken')
             ->with($token->toString())
             ->andReturn($token);

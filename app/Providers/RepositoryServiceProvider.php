@@ -18,6 +18,8 @@ use App\Repositories\Brands\BrandRepository;
 use App\Repositories\Brands\BrandRepositoryInterface;
 use App\Repositories\Products\ProductRepository;
 use App\Repositories\Products\ProductRepositoryInterface;
+use App\Services\JwtAuthService;
+use App\Services\JwtAuthServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -35,6 +37,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+        
+        // INTERFACES
+        $this->app->bind(JwtAuthServiceInterface::class, JwtAuthService::class);
     }
 
     /**

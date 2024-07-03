@@ -11,7 +11,7 @@ class PromotionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testGetPromotions()
+    public function testGetPromotions(): void
     {
         // Create files for metadata
         $files = File::factory()->count(3)->create();

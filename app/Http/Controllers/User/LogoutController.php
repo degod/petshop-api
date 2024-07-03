@@ -23,11 +23,8 @@ use App\Services\ResponseService;
  */
 class LogoutController extends Controller
 {
-    protected $jwtAuthService;
-
-    public function __construct(JwtAuthService $jwtAuthService)
+    public function __construct(private JwtAuthService $jwtAuthService)
     {
-        $this->jwtAuthService = $jwtAuthService;
     }
 
     public function __invoke(Request $request): JsonResponse
@@ -35,7 +32,8 @@ class LogoutController extends Controller
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        $this->jwtAuthService->revokeToken($token);
+        if($token) $this->jwtAuthService->revokeToken($token);
+
         return $response->success([]);
     }
 }

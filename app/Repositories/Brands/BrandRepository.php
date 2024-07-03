@@ -4,6 +4,7 @@ namespace App\Repositories\Brands;
 
 use App\Models\Brand;
 use Illuminate\Support\Str;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BrandRepository implements BrandRepositoryInterface
 {
@@ -11,17 +12,23 @@ class BrandRepository implements BrandRepositoryInterface
     {
     }
 
-    public function findById($id): ?Brand
+    public function findById(int $id): ?Brand
     {
         return $this->brand->select('uuid', 'title', 'slug', 'created_at', 'updated_at')->find($id);
     }
 
-    public function findByUuid($uuid): ?Brand
+    public function findByUuid(string $uuid): ?Brand
     {
         return $this->brand->select('uuid', 'title', 'slug', 'created_at', 'updated_at')->where('uuid', $uuid)->first();
     }
 
-    public function getAllBrands(array $params)
+    /**
+     * Used to list all brands
+     * 
+     * @param  array<string|mixed> $params
+     * @return LengthAwarePaginator<Brand>
+     */
+    public function getAllBrands(array $params): LengthAwarePaginator
     {
         $query = $this->brand->newQuery();
 
@@ -45,7 +52,7 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->brand->create($data);
     }
 
-    public function delete(Brand $brand): bool
+    public function delete(Brand $brand): ?bool
     {
         return $brand->delete();
     }

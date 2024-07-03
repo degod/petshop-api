@@ -18,7 +18,7 @@ class DeleteUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testDeleteUser()
+    public function testDeleteUser(): void
     {
         // Create a test user
         $user = User::factory()->create([
@@ -36,11 +36,11 @@ class DeleteUserTest extends TestCase
         $token = $config->builder()
             ->issuedBy(env('APP_NAME'))
             ->permittedFor(env('APP_NAME'))
-            ->identifiedBy('mocked_jwt_token_jti', true)
+            ->identifiedBy('mocked_jwt_token_jti')
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
-            ->relatedTo($user->id)
+            ->relatedTo((string) $user->id)
             ->withClaim('user_uuid', $user->uuid)
             ->getToken($config->signer(), $config->signingKey());
 

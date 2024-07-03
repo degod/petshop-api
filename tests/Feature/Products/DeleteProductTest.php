@@ -5,7 +5,7 @@ namespace Tests\Feature\Products;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Services\JwtAuthService;
+use App\Services\JwtAuthServiceInterface;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -15,7 +15,7 @@ class DeleteProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testDeleteProduct()
+    public function testDeleteProduct(): void
     {
         // Create a test product
         $product = Product::factory()->create();
@@ -30,19 +30,19 @@ class DeleteProductTest extends TestCase
         $token = $config->builder()
             ->issuedBy(env('APP_NAME'))
             ->permittedFor(env('APP_NAME'))
-            ->identifiedBy('mocked_jwt_token_jti', true)
+            ->identifiedBy('mocked_jwt_token_jti')
             ->issuedAt($now)
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
-            ->relatedTo($product->id)
+            ->relatedTo((string) $product->id)
             ->withClaim('product_uuid', $product->uuid)
             ->getToken($config->signer(), $config->signingKey());
 
-        // Mock the JwtAuthService
-        $jwtAuthService = $this->mock(JwtAuthService::class);
-        $this->app->instance(JwtAuthService::class, $jwtAuthService);
+        // Mock the JwtAuthServiceInterface
+        $jwtAuthService = $this->mock(JwtAuthServiceInterface::class);
+        $this->app->instance(JwtAuthServiceInterface::class, $jwtAuthService);
 
-        // Mocking the JwtAuthService decodeToken method
+        // Mocking the JwtAuthServiceInterface decodeToken method
         $jwtAuthService->shouldReceive('decodeToken')
             ->with($token->toString())
             ->andReturn($token);

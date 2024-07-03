@@ -10,7 +10,7 @@ class ViewProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testViewProduct()
+    public function testViewProduct(): void
     {
         $product = Product::factory()->create();
 
@@ -34,7 +34,7 @@ class ViewProductTest extends TestCase
         ]);
     }
 
-    public function testViewProductNotFound()
+    public function testViewProductNotFound(): void
     {
         $response = $this->getJson(route('products.view', ['uuid' => 'non-existent-uuid']));
 

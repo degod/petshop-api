@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Get(
@@ -23,21 +23,16 @@ use Illuminate\Http\Request;
  */
 class ViewController extends Controller
 {
-    protected $userRepository;
-    protected $jwtAuthService;
-
-    public function __construct(UserRepositoryInterface $userRepository, JwtAuthService $jwtAuthService)
+    public function __construct(private JwtAuthService $jwtAuthService)
     {
-        $this->userRepository = $userRepository;
-        $this->jwtAuthService = $jwtAuthService;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        $user = $this->jwtAuthService->authenticate($token);
+        $user = $token ? $this->jwtAuthService->authenticate($token): null;
 
         if (!$user) {
             return $response->error(401, "Unauthorized");

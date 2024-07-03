@@ -4,8 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Product
+ * @package App\Models
+ *
+ * @property string $uuid
+ * @property string $title
+ * @property float $price
+ * @property string $description
+ * @property array $metadata
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * 
+ * @property-read Category $category
+ */
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
@@ -25,24 +40,30 @@ class Product extends Model
 
     /**
      * Get the category that owns the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category, Product>
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_uuid', 'uuid');
     }
 
     /**
      * Get the brand UUID from metadata.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Brand, Product>
      */
-    public function brand()
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class, 'metadata->brand', 'uuid');
     }
 
     /**
      * Get the image UUID from metadata.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<File, Product>
      */
-    public function image()
+    public function image(): BelongsTo
     {
         return $this->belongsTo(File::class, 'metadata->image', 'uuid');
     }

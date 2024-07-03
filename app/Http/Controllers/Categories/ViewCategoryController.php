@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Categories;
 use App\Http\Controllers\Controller;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Services\ResponseService;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Get(
@@ -28,14 +29,11 @@ use App\Services\ResponseService;
  */
 class ViewCategoryController extends Controller
 {
-    protected $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
-    public function __invoke($uuid)
+    public function __invoke(string $uuid): JsonResponse
     {
         $response = new ResponseService();
 

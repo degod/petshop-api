@@ -33,11 +33,8 @@ use Illuminate\Support\Str;
  */
 class ForgotPasswordController extends Controller
 {
-    protected $passwordResetRepository;
-
-    public function __construct(PasswordResetRepositoryInterface $passwordResetRepository)
+    public function __construct(private PasswordResetRepositoryInterface $passwordResetRepository)
     {
-        $this->passwordResetRepository = $passwordResetRepository;
     }
 
     public function __invoke(ForgotPasswordRequest $request): JsonResponse
