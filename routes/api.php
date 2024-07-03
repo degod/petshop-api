@@ -13,6 +13,11 @@ use App\Http\Controllers\User\ResetPasswordController;
 use App\Http\Controllers\MainPage\PromotionsController;
 use App\Http\Controllers\MainPage\BlogPostsController;
 use App\Http\Controllers\MainPage\BlogPostController;
+use App\Http\Controllers\Categories\CreateCategoryController;
+use App\Http\Controllers\Categories\EditCategoryController;
+use App\Http\Controllers\Categories\ViewCategoryController;
+use App\Http\Controllers\Categories\ListCategoryController;
+use App\Http\Controllers\Categories\DeleteCategoryController;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
@@ -35,5 +40,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/promotions', PromotionsController::class)->name('main.promotions');
         Route::get('/blog', BlogPostsController::class)->name('main.blog');
         Route::get('/blog/{uuid}', BlogPostController::class)->name('main.blog.view');
+    });
+
+    // CATEGORY GROUPED ROUTES
+    Route::get('/categories', ListCategoryController::class)->name('categories.list');
+    Route::prefix('category')->group(function () {
+        Route::get('{uuid}', ViewCategoryController::class)->name('categories.view');
+
+        Route::middleware([JwtMiddleware::class])->group(function () {
+            Route::post('create', CreateCategoryController::class)->name('categories.create');
+            Route::put('{uuid}', EditCategoryController::class)->name('categories.edit');
+            Route::delete('{uuid}', DeleteCategoryController::class)->name('categories.delete');
+        });
     });
 });

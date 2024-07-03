@@ -51,8 +51,6 @@ class ForgotPasswordController extends Controller
             'token' => $token,
         ]);
 
-        // Send password reset link to user's email (implement your email sending logic here)
-
         return $response->success(['reset_token' => $token]);
     }
 }

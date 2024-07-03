@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             FileSeeder::class,
             PromotionSeeder::class,
             PostSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }
