@@ -7,8 +7,8 @@ use App\Http\Requests\LoginUser;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Post(
@@ -16,17 +16,22 @@ use Illuminate\Http\JsonResponse;
  *     summary="Login an User account",
  *     description="Login user and return JWT token",
  *     tags={"User"},
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"email", "password"},
+ *
  *                 @OA\Property(property="email", type="string", description="User email", example=""),
  *                 @OA\Property(property="password", type="string", description="User password", example="")
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -36,9 +41,7 @@ use Illuminate\Http\JsonResponse;
  */
 class LoginController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
 
     public function __invoke(LoginUser $request): JsonResponse
     {
@@ -47,8 +50,8 @@ class LoginController extends Controller
 
         $user = $this->userRepository->findByEmail($credentials['email']);
 
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return $response->error(401, "Invalid credentials");
+        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+            return $response->error(401, 'Invalid credentials');
         }
 
         $token = $this->jwtAuthService->generateToken($user);

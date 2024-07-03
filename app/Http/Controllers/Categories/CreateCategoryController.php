@@ -14,16 +14,21 @@ use Illuminate\Http\JsonResponse;
  *     tags={"Categories"},
  *     summary="Create a new category",
  *     security={{"bearerAuth":{}}},
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"title"},
+ *
  *                 @OA\Property(property="title", type="string", description="Category title", example="")
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200, description="OK"),
  *     @OA\Response(response=401, description="Unauthorized"),
  *     @OA\Response(response=404, description="Page not found"),
@@ -33,9 +38,7 @@ use Illuminate\Http\JsonResponse;
  */
 class CreateCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository, private ResponseService $responseService)
-    {
-    }
+    public function __construct(private CategoryRepositoryInterface $categoryRepository, private ResponseService $responseService) {}
 
     public function __invoke(CreateCategoryRequest $request): JsonResponse
     {

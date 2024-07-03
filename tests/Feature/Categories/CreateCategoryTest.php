@@ -3,15 +3,15 @@
 namespace Tests\Feature\Categories;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
-use Mockery;
 use App\Services\JwtAuthServiceInterface;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Mockery;
+use Tests\TestCase;
 
 class CreateCategoryTest extends TestCase
 {
@@ -22,7 +22,7 @@ class CreateCategoryTest extends TestCase
         // Create a test user
         $user = User::factory()->create([
             'email' => 'user@example.com',
-            'password' => Hash::make('userpassword')
+            'password' => Hash::make('userpassword'),
         ]);
 
         // Create a real token
@@ -58,12 +58,12 @@ class CreateCategoryTest extends TestCase
             ->andReturn($user);
 
         $categoryData = [
-            'title' => 'New Category'
+            'title' => 'New Category',
         ];
 
         // Send the POST request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->postJson(route('categories.create'), $categoryData);
 
         // Assert the response status
@@ -81,14 +81,14 @@ class CreateCategoryTest extends TestCase
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
 
         // Assert the JSON content
         $response->assertJson([
             'data' => [
-                'title' => 'New Category'
-            ]
+                'title' => 'New Category',
+            ],
         ]);
     }
 }

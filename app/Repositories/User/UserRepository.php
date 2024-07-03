@@ -10,15 +10,12 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Create a new class instance.
      */
-    public function __construct(private User $user)
-    {
-    }
+    public function __construct(private User $user) {}
 
     /**
      * Used to insert user data
-     * 
-     * @param array<string|mixed> $data
-     * @return User
+     *
+     * @param  array<string|mixed>  $data
      */
     public function create(array $data): User
     {
@@ -46,15 +43,16 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * Edit user
-     * 
+     *
      * @param  array<string|mixed>  $data
-     * @return User|null
      */
     public function edit(array $data): ?User
     {
         $user = $this->user::whereUuid($data['uuid'])->first();
 
-        if($user) $user->update($data);
+        if ($user) {
+            $user->update($data);
+        }
 
         return $user;
     }
@@ -65,7 +63,7 @@ class UserRepository implements UserRepositoryInterface
     public function delete(int $userId): ?bool
     {
         $user = $this->user::find($userId);
-        if (!$user) {
+        if (! $user) {
             return false;
         }
 

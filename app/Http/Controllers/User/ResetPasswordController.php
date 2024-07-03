@@ -4,23 +4,27 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResetPasswordRequest;
-use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\PasswordResets\PasswordResetRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Post(
  *     path="/api/v1/user/reset-password-token",
  *     tags={"User"},
  *     summary="Reset a user password with the a token",
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"token", "email", "password", "password_confirmation"},
+ *
  *                 @OA\Property(property="token", type="string", description="User reset token", example=""),
  *                 @OA\Property(property="email", type="string", description="User email", example=""),
  *                 @OA\Property(property="password", type="string", description="User password", example=""),
@@ -28,6 +32,7 @@ use Illuminate\Http\JsonResponse;
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -37,9 +42,7 @@ use Illuminate\Http\JsonResponse;
  */
 class ResetPasswordController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private PasswordResetRepositoryInterface $passwordResetRepository)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $userRepository, private PasswordResetRepositoryInterface $passwordResetRepository) {}
 
     public function __invoke(ResetPasswordRequest $request): JsonResponse
     {
@@ -49,14 +52,14 @@ class ResetPasswordController extends Controller
         // Find password reset record by email and token
         $passwordReset = $this->passwordResetRepository->findForEmailAndToken($validated['email'], $validated['token']);
 
-        if (!$passwordReset) {
+        if (! $passwordReset) {
             return $response->error(401, 'Invalid or expired token');
         }
 
         // Find user by email
         $user = $this->userRepository->findByEmail($validated['email']);
 
-        if (!$user) {
+        if (! $user) {
             return $response->error(404, 'User not found.');
         }
 
@@ -66,10 +69,10 @@ class ResetPasswordController extends Controller
 
         // Delete the password reset record
         $deletedToken = $this->passwordResetRepository->deleteByEmailAndToken($passwordReset->email, $passwordReset->token);
-        if (!$deletedToken) {
+        if (! $deletedToken) {
             return $response->error(422, 'Error deleting token');
         }
 
-        return $response->success(["message" => "Password has been successfully updated"]);
+        return $response->success(['message' => 'Password has been successfully updated']);
     }
 }

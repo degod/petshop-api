@@ -2,20 +2,20 @@
 
 namespace Tests\Feature\Products;
 
-use App\Models\User;
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\File;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
-use Mockery;
+use App\Models\Product;
+use App\Models\User;
 use App\Services\JwtAuthServiceInterface;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Mockery;
+use Tests\TestCase;
 
 class EditProductTest extends TestCase
 {
@@ -26,7 +26,7 @@ class EditProductTest extends TestCase
         // Create a test user
         $user = User::factory()->create([
             'email' => 'user@example.com',
-            'password' => Hash::make('userpassword')
+            'password' => Hash::make('userpassword'),
         ]);
 
         // Create necessary related models
@@ -74,13 +74,13 @@ class EditProductTest extends TestCase
             'description' => 'This is an updated product',
             'metadata' => json_encode([
                 'brand' => $brand->uuid,
-                'image' => $file->uuid
-            ])
+                'image' => $file->uuid,
+            ]),
         ];
 
         // Send the PUT request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->putJson(route('products.edit', ['uuid' => $product->uuid]), $fakeData);
 
         $response->assertStatus(200);
@@ -94,18 +94,18 @@ class EditProductTest extends TestCase
                 'description',
                 'metadata',
                 'created_at',
-                'updated_at'
+                'updated_at',
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
         $response->assertJson([
             'data' => [
                 'title' => 'Updated Product',
                 'price' => 299.99,
                 'description' => 'This is an updated product',
-            ]
+            ],
         ]);
     }
 }

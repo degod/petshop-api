@@ -10,15 +10,12 @@ class PasswordResetRepository implements PasswordResetRepositoryInterface
     /**
      * Create a new class instance.
      */
-    public function __construct(private PasswordReset $passwordReset)
-    {
-    }
+    public function __construct(private PasswordReset $passwordReset) {}
 
     /**
      * Used to create a password reset token
-     * 
-     * @param  array<string|mixed> $data
-     * @return PasswordReset|null
+     *
+     * @param  array<string|mixed>  $data
      */
     public function create(array $data): ?PasswordReset
     {

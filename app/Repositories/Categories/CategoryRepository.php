@@ -3,14 +3,12 @@
 namespace App\Repositories\Categories;
 
 use App\Models\Category;
-use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function __construct(private Category $category)
-    {
-    }
+    public function __construct(private Category $category) {}
 
     public function findById(int $id): ?Category
     {
@@ -24,8 +22,8 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     /**
      * Used to list all category
-     * 
-     * @param  array<string|mixed> $params
+     *
+     * @param  array<string|mixed>  $params
      * @return LengthAwarePaginator<Category>
      */
     public function getAllCategories(array $params): LengthAwarePaginator
@@ -41,14 +39,13 @@ class CategoryRepository implements CategoryRepositoryInterface
         $page = $params['page'] ?? 1;
 
         return $query->select('uuid', 'title', 'slug', 'created_at', 'updated_at')
-                     ->paginate($limit, ['*'], 'page', $page);
+            ->paginate($limit, ['*'], 'page', $page);
     }
 
     /**
      * Used to create a category
-     * 
-     * @param  array<string|mixed> $data
-     * @return Category
+     *
+     * @param  array<string|mixed>  $data
      */
     public function create(array $data): Category
     {
@@ -60,17 +57,15 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     /**
      * Used to update a category
-     * 
-     * @param  array<string|mixed> $data
-     * @param  string $uuid
-     * @return Category
+     *
+     * @param  array<string|mixed>  $data
      */
     public function update(array $data, string $uuid): Category
     {
         $category = $this->findByUuid($uuid);
 
-        if (!$category) {
-            throw new \Exception("Category not found", 404);
+        if (! $category) {
+            throw new \Exception('Category not found', 404);
         }
 
         $data['slug'] = Str::slug($data['title']);

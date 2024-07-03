@@ -3,13 +3,13 @@
 namespace Tests\Feature\Products;
 
 use App\Models\Product;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Services\JwtAuthServiceInterface;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Tests\TestCase;
 
 class DeleteProductTest extends TestCase
 {
@@ -49,7 +49,7 @@ class DeleteProductTest extends TestCase
 
         // Send the DELETE request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->deleteJson(route('products.delete', ['uuid' => $product->uuid]));
 
         // Assert response

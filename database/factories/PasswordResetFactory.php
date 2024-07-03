@@ -20,7 +20,7 @@ class PasswordResetFactory extends Factory
         return [
             'email' => $this->faker->unique()->safeEmail,
             'token' => Str::random(128),
-            'created_at' => now()
+            'created_at' => now(),
         ];
     }
 }

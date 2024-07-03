@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Products;
 
-use Tests\TestCase;
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\File;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ListProductTest extends TestCase
 {
@@ -50,7 +50,7 @@ class ListProductTest extends TestCase
                     'metadata',
                     'created_at',
                     'updated_at',
-                ]
+                ],
             ],
             'first_page_url',
             'from',
@@ -61,7 +61,7 @@ class ListProductTest extends TestCase
             'per_page',
             'prev_page_url',
             'to',
-            'total'
+            'total',
         ]);
     }
 }

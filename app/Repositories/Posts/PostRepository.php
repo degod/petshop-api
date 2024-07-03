@@ -7,9 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostRepository implements PostRepositoryInterface
 {
-    public function __construct(private Post $post)
-    {
-    }
+    public function __construct(private Post $post) {}
 
     public function findById(int $id): ?Post
     {
@@ -27,8 +25,8 @@ class PostRepository implements PostRepositoryInterface
 
     /**
      * Get all post
-     * 
-     * @param  array<string|mixed> $params
+     *
+     * @param  array<string|mixed>  $params
      * @return LengthAwarePaginator<Post>
      */
     public function getPosts(array $params): LengthAwarePaginator
@@ -49,7 +47,7 @@ class PostRepository implements PostRepositoryInterface
         $offset = ($page - 1) * $perPage;
 
         $posts = $query->select('uuid', 'title', 'slug', 'content', 'metadata', 'created_at', 'updated_at')
-                ->offset($offset)->limit($perPage)->get();
+            ->offset($offset)->limit($perPage)->get();
 
         return new LengthAwarePaginator(
             $posts,

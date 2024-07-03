@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Categories;
 
+use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Category;
 
 class ListCategoryTest extends TestCase
 {
@@ -20,7 +20,7 @@ class ListCategoryTest extends TestCase
             'page' => 1,
             'limit' => 10,
             'sortBy' => 'title',
-            'desc' => true
+            'desc' => true,
         ]));
 
         // Assert the response status
@@ -36,7 +36,7 @@ class ListCategoryTest extends TestCase
                     'slug',
                     'created_at',
                     'updated_at',
-                ]
+                ],
             ],
             'next_page_url',
             'path',

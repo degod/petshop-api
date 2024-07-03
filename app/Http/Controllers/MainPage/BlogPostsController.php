@@ -4,38 +4,47 @@ namespace App\Http\Controllers\MainPage;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Posts\PostRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Get(
  *     path="/api/v1/main/blog",
  *     tags={"MainPage"},
  *     summary="List all posts",
+ *
  *     @OA\Parameter(
  *         name="page",
  *         in="query",
  *         required=false,
+ *
  *         @OA\Schema(type="integer")
  *     ),
+ *
  *     @OA\Parameter(
  *         name="limit",
  *         in="query",
  *         required=false,
+ *
  *         @OA\Schema(type="integer")
  *     ),
+ *
  *     @OA\Parameter(
  *         name="sortBy",
  *         in="query",
  *         required=false,
+ *
  *         @OA\Schema(type="string")
  *     ),
+ *
  *     @OA\Parameter(
  *         name="desc",
  *         in="query",
  *         required=false,
+ *
  *         @OA\Schema(type="boolean")
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -45,9 +54,7 @@ use Illuminate\Http\JsonResponse;
  */
 class BlogPostsController extends Controller
 {
-    public function __construct(private PostRepositoryInterface $postRepository)
-    {
-    }
+    public function __construct(private PostRepositoryInterface $postRepository) {}
 
     public function __invoke(Request $request): JsonResponse
     {

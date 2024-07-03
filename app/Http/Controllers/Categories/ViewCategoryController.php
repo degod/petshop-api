@@ -12,14 +12,17 @@ use Illuminate\Http\JsonResponse;
  *     path="/api/v1/category/{uuid}",
  *     tags={"Categories"},
  *     summary="Fetch a category",
+ *
  *     @OA\Parameter(
  *         name="uuid",
  *         in="path",
  *         required=true,
+ *
  *         @OA\Schema(
  *             type="string"
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Category not found"),
@@ -29,9 +32,7 @@ use Illuminate\Http\JsonResponse;
  */
 class ViewCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository)
-    {
-    }
+    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
 
     public function __invoke(string $uuid): JsonResponse
     {
@@ -40,7 +41,7 @@ class ViewCategoryController extends Controller
         try {
             $category = $this->categoryRepository->findByUuid($uuid);
 
-            if (!$category) {
+            if (! $category) {
                 return $response->error(404, 'Category not found');
             }
 

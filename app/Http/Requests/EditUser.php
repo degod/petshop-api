@@ -2,19 +2,17 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Services\JwtAuthService;
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
-use App\Services\ResponseService;
-use App\Services\JwtAuthService;
 
 class EditUser extends FormRequest
 {
-    public function __construct(private JwtAuthService $jwtAuthService)
-    {
-    }
-    
+    public function __construct(private JwtAuthService $jwtAuthService) {}
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,15 +23,15 @@ class EditUser extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * 
+     *
      * @return array<string|mixed>
      */
     public function rules(): array
     {
         $token = \Request::bearerToken() ?? null;
-        $user = $token ? $this->jwtAuthService->authenticate($token): null;
+        $user = $token ? $this->jwtAuthService->authenticate($token) : null;
 
-        $userId = $user ? $user->id: null;
+        $userId = $user ? $user->id : null;
 
         return [
             'first_name' => 'required|string|max:255',
@@ -43,7 +41,7 @@ class EditUser extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($userId)
+                Rule::unique('users')->ignore($userId),
             ],
             'password' => ['required', 'string', 'confirmed', 'min:8'],
             'phone_number' => 'required|string|max:255',
@@ -56,7 +54,6 @@ class EditUser extends FormRequest
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return void
      *
      * @throws \Illuminate\Http\Exceptions\HttpResponseException
@@ -67,7 +64,7 @@ class EditUser extends FormRequest
 
         throw new HttpResponseException($response->error(
             422,
-            "Failed to validate data",
+            'Failed to validate data',
             $validator->errors()
         ));
     }

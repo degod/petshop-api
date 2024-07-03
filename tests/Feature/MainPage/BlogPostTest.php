@@ -14,36 +14,36 @@ class BlogPostTest extends TestCase
     {
         $post = Post::factory()->create();
 
-        $response = $this->get(route('main.blog.view', ['uuid'=>$post->uuid]));
+        $response = $this->get(route('main.blog.view', ['uuid' => $post->uuid]));
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                    'success',
-                    'data' => [
-                         'uuid',
-                         'title',
-                         'slug',
-                         'content',
-                         'metadata' => [
-                             'image',
-                             'author',
-                         ],
-                         'created_at',
-                         'updated_at',
+            ->assertJsonStructure([
+                'success',
+                'data' => [
+                    'uuid',
+                    'title',
+                    'slug',
+                    'content',
+                    'metadata' => [
+                        'image',
+                        'author',
                     ],
-                    'error',
-                    'errors',
-                    'extra'
-                 ]);
+                    'created_at',
+                    'updated_at',
+                ],
+                'error',
+                'errors',
+                'extra',
+            ]);
     }
 
     public function testViewNonExistingBlogPost(): void
     {
-        $response = $this->get(route('main.blog.view', ['uuid'=>'non-existing-uuid']));
+        $response = $this->get(route('main.blog.view', ['uuid' => 'non-existing-uuid']));
 
         $response->assertStatus(404)
-                 ->assertJson([
-                     'error' => 'Post not found',
-                 ]);
+            ->assertJson([
+                'error' => 'Post not found',
+            ]);
     }
 }

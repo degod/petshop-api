@@ -3,14 +3,12 @@
 namespace App\Repositories\Products;
 
 use App\Models\Product;
-use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function __construct(private Product $product)
-    {
-    }
+    public function __construct(private Product $product) {}
 
     public function findById(int $id): ?Product
     {
@@ -25,20 +23,20 @@ class ProductRepository implements ProductRepositoryInterface
     /**
      * Get all products with optional filters and pagination.
      *
-     * @param array<string, mixed> $params
+     * @param  array<string, mixed>  $params
      * @return LengthAwarePaginator<Product>
      */
     public function getAllProducts(array $params): LengthAwarePaginator
     {
         $query = $this->product->newQuery();
-        
+
         // Exclude the 'id' column from the selection
         $selectColumns = array_diff($this->product->getFillable(), ['id']);
 
         $query->select($selectColumns);
 
         if (isset($params['category'])) {
-            $query->whereHas('category', function($q) use ($params) {
+            $query->whereHas('category', function ($q) use ($params) {
                 $q->where('uuid', $params['category']);
             });
         }
@@ -48,7 +46,7 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
         if (isset($params['title'])) {
-            $query->where('title', 'like', '%' . $params['title'] . '%');
+            $query->where('title', 'like', '%'.$params['title'].'%');
         }
 
         if (isset($params['price'])) {
@@ -68,13 +66,13 @@ class ProductRepository implements ProductRepositoryInterface
 
     /**
      * Create product
-     * 
+     *
      * @param  array<string, mixed>  $data
-     * @return Product      
      */
     public function create(array $data): Product
     {
         $data['uuid'] = (string) Str::uuid();
+
         return $this->product->create($data);
     }
 
@@ -82,7 +80,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = $this->findByUuid($uuid);
 
-        if (!$product) {
+        if (! $product) {
             return false;
         }
 
@@ -92,13 +90,12 @@ class ProductRepository implements ProductRepositoryInterface
     /**
      * Update a product with the given data.
      *
-     * @param Product $product
-     * @param array<string|mixed> $data
-     * @return Product
+     * @param  array<string|mixed>  $data
      */
     public function update(Product $product, array $data): Product
     {
         $product->update($data);
+
         return $product;
     }
 }

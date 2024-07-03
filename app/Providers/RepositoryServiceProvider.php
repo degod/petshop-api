@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRepositoryInterface;
-use App\Repositories\PasswordResets\PasswordResetRepository;
-use App\Repositories\PasswordResets\PasswordResetRepositoryInterface;
-use App\Repositories\Files\FileRepository;
-use App\Repositories\Files\FileRepositoryInterface;
-use App\Repositories\Promotions\PromotionRepository;
-use App\Repositories\Promotions\PromotionRepositoryInterface;
-use App\Repositories\Posts\PostRepository;
-use App\Repositories\Posts\PostRepositoryInterface;
-use App\Repositories\Categories\CategoryRepository;
-use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Repositories\Brands\BrandRepository;
 use App\Repositories\Brands\BrandRepositoryInterface;
+use App\Repositories\Categories\CategoryRepository;
+use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\Files\FileRepository;
+use App\Repositories\Files\FileRepositoryInterface;
+use App\Repositories\PasswordResets\PasswordResetRepository;
+use App\Repositories\PasswordResets\PasswordResetRepositoryInterface;
+use App\Repositories\Posts\PostRepository;
+use App\Repositories\Posts\PostRepositoryInterface;
 use App\Repositories\Products\ProductRepository;
 use App\Repositories\Products\ProductRepositoryInterface;
+use App\Repositories\Promotions\PromotionRepository;
+use App\Repositories\Promotions\PromotionRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
 use App\Services\JwtAuthServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -37,7 +37,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
-        
+
         // INTERFACES
         $this->app->bind(JwtAuthServiceInterface::class, JwtAuthService::class);
     }

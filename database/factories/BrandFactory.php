@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class BrandFactory extends Factory
 {
     protected $model = Brand::class;
-    
+
     /**
      * Define the model's default state.
      *

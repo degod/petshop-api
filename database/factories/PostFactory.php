@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class PostFactory extends Factory
 {
     protected $model = Post::class;
-    
+
     /**
      * Define the model's default state.
      *

@@ -3,15 +3,15 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
-use Mockery;
 use App\Services\JwtAuthServiceInterface;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Mockery;
+use Tests\TestCase;
 
 class LogoutUserTest extends TestCase
 {
@@ -22,7 +22,7 @@ class LogoutUserTest extends TestCase
         // Create a test user
         $user = User::factory()->create([
             'email' => 'user@example.com',
-            'password' => Hash::make('userpassword')
+            'password' => Hash::make('userpassword'),
         ]);
 
         // Create a real token
@@ -64,7 +64,7 @@ class LogoutUserTest extends TestCase
 
         // Send the GET request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->getJson(route('user.logout'));
 
         // Assert the response status
@@ -76,7 +76,7 @@ class LogoutUserTest extends TestCase
             'data',
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
 
         // Assert the success message
@@ -85,7 +85,7 @@ class LogoutUserTest extends TestCase
             'data' => [],
             'error' => null,
             'errors' => [],
-            'extra' => []
+            'extra' => [],
         ]);
     }
 }

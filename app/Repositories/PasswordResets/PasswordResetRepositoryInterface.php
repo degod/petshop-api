@@ -8,9 +8,8 @@ interface PasswordResetRepositoryInterface
 {
     /**
      * Used to create a password reset token
-     * 
-     * @param  array<string|mixed> $data
-     * @return PasswordReset|null
+     *
+     * @param  array<string|mixed>  $data
      */
     public function create(array $data): ?PasswordReset;
 

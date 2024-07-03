@@ -17,7 +17,7 @@ class JwtToken extends Model
         'permissions',
         'expires_at',
         'last_used_at',
-        'refreshed_at'
+        'refreshed_at',
     ];
 
     protected $casts = [

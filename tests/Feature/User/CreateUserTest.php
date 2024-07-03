@@ -3,13 +3,13 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Mockery;
-use Illuminate\Support\Str;
-use App\Services\JwtAuthService;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\JwtAuthService;
 use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
+use Mockery;
+use Tests\TestCase;
 
 class CreateUserTest extends TestCase
 {
@@ -31,6 +31,7 @@ class CreateUserTest extends TestCase
         // Mocking the repository create method
         $userRepository->shouldReceive('create')->andReturnUsing(function ($inputData) {
             $inputData['uuid'] = Str::uuid();
+
             return User::create($inputData);
         });
 
@@ -47,7 +48,7 @@ class CreateUserTest extends TestCase
             'phone_number' => $faker->phoneNumber,
             'address' => $faker->address,
             'avatar' => $faker->optional()->uuid,
-            'is_marketing' => null
+            'is_marketing' => null,
         ];
 
         $response = $this->postJson(route('user.create'), $fakeData);
@@ -64,20 +65,20 @@ class CreateUserTest extends TestCase
                 'address',
                 'created_at',
                 'updated_at',
-                'token'
+                'token',
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
         $response->assertJson([
             'data' => [
-                'token' => 'mocked_jwt_token'
-            ]
+                'token' => 'mocked_jwt_token',
+            ],
         ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => $fakeEmail
+            'email' => $fakeEmail,
         ]);
     }
 }

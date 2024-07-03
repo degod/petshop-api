@@ -4,15 +4,15 @@ namespace Tests\Feature\Categories;
 
 use App\Models\Category;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
-use Mockery;
 use App\Services\JwtAuthServiceInterface;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Mockery;
+use Tests\TestCase;
 
 class DeleteCategoryTest extends TestCase
 {
@@ -23,7 +23,7 @@ class DeleteCategoryTest extends TestCase
         // Create a test user
         $user = User::factory()->create([
             'email' => 'user@example.com',
-            'password' => Hash::make('userpassword')
+            'password' => Hash::make('userpassword'),
         ]);
 
         // Create a test category
@@ -63,7 +63,7 @@ class DeleteCategoryTest extends TestCase
 
         // Send the DELETE request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->delete(route('categories.delete', ['uuid' => $category->uuid]));
 
         // Assert the response status
@@ -73,11 +73,11 @@ class DeleteCategoryTest extends TestCase
         $response->assertJsonStructure([
             'success',
             'data' => [
-                'message'
+                'message',
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
 
         // Assert the JSON content
@@ -87,8 +87,8 @@ class DeleteCategoryTest extends TestCase
             'errors' => [],
             'extra' => [],
             'data' => [
-                'message' => 'Category deleted'
-            ]
+                'message' => 'Category deleted',
+            ],
         ]);
     }
 }

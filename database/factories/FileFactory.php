@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class FileFactory extends Factory
 {
     protected $model = File::class;
-    
+
     /**
      * Define the model's default state.
      *
@@ -22,8 +22,8 @@ class FileFactory extends Factory
     {
         return [
             'uuid' => Str::uuid(),
-            'name' => $this->faker->word . '.' . $this->faker->fileExtension,
-            'path' => 'files/' . $this->faker->word . '.' . $this->faker->fileExtension,
+            'name' => $this->faker->word.'.'.$this->faker->fileExtension,
+            'path' => 'files/'.$this->faker->word.'.'.$this->faker->fileExtension,
             'size' => $this->faker->numberBetween(100, 10000),
             'type' => $this->faker->mimeType,
         ];

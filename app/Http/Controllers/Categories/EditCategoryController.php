@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EditCategoryRequest;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Services\ResponseService;
-use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 /**
  * @OA\Put(
@@ -15,22 +15,29 @@ use Illuminate\Http\JsonResponse;
  *     tags={"Categories"},
  *     summary="Update an existing category",
  *     security={{"bearerAuth":{}}},
+ *
  *     @OA\Parameter(
  *         name="uuid",
  *         in="path",
  *         required=true,
+ *
  *         @OA\Schema(type="string")
  *     ),
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"title"},
+ *
  *                 @OA\Property(property="title", type="string", description="Category title", example="")
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Category not found"),
@@ -40,9 +47,7 @@ use Illuminate\Http\JsonResponse;
  */
 class EditCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository)
-    {
-    }
+    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
 
     public function __invoke(string $uuid, EditCategoryRequest $request): JsonResponse
     {
@@ -52,7 +57,7 @@ class EditCategoryController extends Controller
         // Find the category by UUID
         $category = $this->categoryRepository->findByUuid($uuid);
 
-        if (!$category) {
+        if (! $category) {
             return $response->error(404, 'Category not found');
         }
 

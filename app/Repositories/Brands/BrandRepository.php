@@ -3,14 +3,12 @@
 namespace App\Repositories\Brands;
 
 use App\Models\Brand;
-use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 class BrandRepository implements BrandRepositoryInterface
 {
-    public function __construct(private Brand $brand)
-    {
-    }
+    public function __construct(private Brand $brand) {}
 
     public function findById(int $id): ?Brand
     {
@@ -24,8 +22,8 @@ class BrandRepository implements BrandRepositoryInterface
 
     /**
      * Used to list all brands
-     * 
-     * @param  array<string|mixed> $params
+     *
+     * @param  array<string|mixed>  $params
      * @return LengthAwarePaginator<Brand>
      */
     public function getAllBrands(array $params): LengthAwarePaginator
@@ -41,7 +39,7 @@ class BrandRepository implements BrandRepositoryInterface
         $page = $params['page'] ?? 1;
 
         return $query->select('uuid', 'title', 'slug', 'created_at', 'updated_at')
-                     ->paginate($limit, ['*'], 'page', $page);
+            ->paginate($limit, ['*'], 'page', $page);
     }
 
     public function create(array $data): Brand

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\JwtAuthService;
+use App\Services\ResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Services\ResponseService;
-use App\Services\JwtAuthService;
 
 /**
  * @OA\Delete(
@@ -15,6 +15,7 @@ use App\Services\JwtAuthService;
  *     tags={"User"},
  *     summary="Delete a User account",
  *     security={{"bearerAuth":{}}},
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="User not found"),
@@ -24,18 +25,16 @@ use App\Services\JwtAuthService;
  */
 class DeleteController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
 
     public function __invoke(Request $request): JsonResponse
     {
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        $user = $token ? $this->jwtAuthService->authenticate($token): null;
-        if (!$user) {
-            return $response->error(401, "Unauthorized");
+        $user = $token ? $this->jwtAuthService->authenticate($token) : null;
+        if (! $user) {
+            return $response->error(401, 'Unauthorized');
         }
 
         if ($this->userRepository->delete($user->id)) {

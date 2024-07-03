@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Products;
 
-use Tests\TestCase;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ViewProductTest extends TestCase
 {
@@ -30,7 +30,7 @@ class ViewProductTest extends TestCase
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
     }
 
@@ -41,7 +41,7 @@ class ViewProductTest extends TestCase
         $response->assertStatus(404);
         $response->assertJson([
             'success' => false,
-            'error' => 'Product not found'
+            'error' => 'Product not found',
         ]);
     }
 }

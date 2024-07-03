@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\User;
 
-use App\Models\User;
 use App\Models\PasswordReset;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use Tests\TestCase;
-use Mockery;
+use App\Models\User;
 use App\Repositories\PasswordResets\PasswordResetRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Mockery;
+use Tests\TestCase;
 
 class ResetPasswordTest extends TestCase
 {

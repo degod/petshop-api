@@ -6,18 +6,19 @@ use App\Models\JwtToken;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Str;
+use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
-use Lcobucci\Clock\SystemClock;
-use Lcobucci\JWT\Token;
 
 class JwtAuthService implements JwtAuthServiceInterface
 {
     private string $secretKey;
+
     private Configuration $config;
 
     public function __construct(private UserRepositoryInterface $userRepository)
@@ -69,7 +70,7 @@ class JwtAuthService implements JwtAuthServiceInterface
 
             // Validate the token
             $constraints = $this->config->validationConstraints();
-            if (!$this->config->validator()->validate($parsedToken, ...$constraints)) {
+            if (! $this->config->validator()->validate($parsedToken, ...$constraints)) {
                 throw new \Exception('Invalid token');
             }
 
@@ -92,12 +93,12 @@ class JwtAuthService implements JwtAuthServiceInterface
     {
         $decodedToken = $this->decodeToken($token);
 
-        if (!$decodedToken) {
+        if (! $decodedToken) {
             return null;
         }
 
         $user_uuid = $decodedToken->claims()->get('user_uuid');
-        if (!$user_uuid) {
+        if (! $user_uuid) {
             return null;
         }
 

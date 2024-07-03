@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
 use App\Services\ResponseService;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CreateProductRequest extends FormRequest
@@ -44,7 +44,7 @@ class CreateProductRequest extends FormRequest
             $response = new ResponseService();
             throw new HttpResponseException($response->error(
                 422,
-                "Invalid JSON format for metadata",
+                'Invalid JSON format for metadata',
                 ['metadata' => ['Invalid JSON format']]
             ));
         }
@@ -58,7 +58,7 @@ class CreateProductRequest extends FormRequest
             $response = new ResponseService();
             throw new HttpResponseException($response->error(
                 422,
-                "Failed to validate metadata",
+                'Failed to validate metadata',
                 $validator->errors()
             ));
         }
@@ -70,7 +70,6 @@ class CreateProductRequest extends FormRequest
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return void
      *
      * @throws \Illuminate\Http\Exceptions\HttpResponseException
@@ -81,7 +80,7 @@ class CreateProductRequest extends FormRequest
 
         throw new HttpResponseException($response->error(
             422,
-            "Failed to validate data",
+            'Failed to validate data',
             $validator->errors()
         ));
     }

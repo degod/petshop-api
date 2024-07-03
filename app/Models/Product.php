@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Product
- * @package App\Models
  *
  * @property string $uuid
  * @property string $title
@@ -18,7 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property array $metadata
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
- * 
  * @property-read Category $category
  */
 class Product extends Model

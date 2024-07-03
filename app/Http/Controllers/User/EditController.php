@@ -5,9 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditUser;
 use App\Repositories\User\UserRepositoryInterface;
-use Illuminate\Http\JsonResponse;
-use App\Services\ResponseService;
 use App\Services\JwtAuthService;
+use App\Services\ResponseService;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Put(
@@ -15,12 +15,16 @@ use App\Services\JwtAuthService;
  *     tags={"User"},
  *     summary="Update a User account",
  *     security={{"bearerAuth":{}}},
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"first_name", "last_name", "email", "password", "password_confirmation", "phone_number", "address"},
+ *
  *                 @OA\Property(property="first_name", type="string", description="User firstname", example=""),
  *                 @OA\Property(property="last_name", type="string", description="User lastname", example=""),
  *                 @OA\Property(property="email", type="string", description="User email", example=""),
@@ -33,6 +37,7 @@ use App\Services\JwtAuthService;
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -42,9 +47,7 @@ use App\Services\JwtAuthService;
  */
 class EditController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
 
     public function __invoke(EditUser $request): JsonResponse
     {
@@ -53,18 +56,21 @@ class EditController extends Controller
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        if($token){
+        if ($token) {
             $userData = $this->jwtAuthService->authenticate($token);
-            $validated['uuid'] = $userData ? $userData->uuid: null;
+            $validated['uuid'] = $userData ? $userData->uuid : null;
 
             $user = $this->userRepository->edit($validated);
             unset($user['id']);
             unset($user['is_admin']);
 
-            if($user) return $response->success($user);
-            else return $response->error(401, "Unauthorized");
-        }else{
-            return $response->error(401, "Unauthorized");
+            if ($user) {
+                return $response->success($user);
+            } else {
+                return $response->error(401, 'Unauthorized');
+            }
+        } else {
+            return $response->error(401, 'Unauthorized');
         }
     }
 }

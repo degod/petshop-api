@@ -5,8 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Get(
@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
  *     summary="View a User account",
  *     tags={"User"},
  *     security={{"bearerAuth":{}}},
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -23,19 +24,17 @@ use Illuminate\Http\JsonResponse;
  */
 class ViewController extends Controller
 {
-    public function __construct(private JwtAuthService $jwtAuthService)
-    {
-    }
+    public function __construct(private JwtAuthService $jwtAuthService) {}
 
     public function __invoke(Request $request): JsonResponse
     {
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        $user = $token ? $this->jwtAuthService->authenticate($token): null;
+        $user = $token ? $this->jwtAuthService->authenticate($token) : null;
 
-        if (!$user) {
-            return $response->error(401, "Unauthorized");
+        if (! $user) {
+            return $response->error(401, 'Unauthorized');
         }
         unset($user['id']);
         unset($user['is_admin']);

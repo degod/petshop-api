@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\MainPage;
 
+use App\Models\File;
+use App\Models\Promotion;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Promotion;
-use App\Models\File;
 
 class PromotionsTest extends TestCase
 {

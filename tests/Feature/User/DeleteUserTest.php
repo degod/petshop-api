@@ -3,16 +3,16 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
-use Mockery;
-use App\Services\JwtAuthService;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\JwtAuthService;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Mockery;
+use Tests\TestCase;
 
 class DeleteUserTest extends TestCase
 {
@@ -23,7 +23,7 @@ class DeleteUserTest extends TestCase
         // Create a test user
         $user = User::factory()->create([
             'email' => 'user@example.com',
-            'password' => Hash::make('userpassword')
+            'password' => Hash::make('userpassword'),
         ]);
 
         // Create a real token
@@ -69,7 +69,7 @@ class DeleteUserTest extends TestCase
 
         // Send the DELETE request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->deleteJson(route('user.delete'));
 
         // Assert the response status
@@ -81,7 +81,7 @@ class DeleteUserTest extends TestCase
             'data',
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
 
         // Assert the success message
@@ -90,7 +90,7 @@ class DeleteUserTest extends TestCase
             'data' => [],
             'error' => null,
             'errors' => [],
-            'extra' => []
+            'extra' => [],
         ]);
     }
 }

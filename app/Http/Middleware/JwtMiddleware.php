@@ -2,31 +2,29 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
-use Illuminate\Http\Request;
+use Closure;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class JwtMiddleware
 {
-    public function __construct(private JwtAuthService $jwtAuthService)
-    {
-    }
+    public function __construct(private JwtAuthService $jwtAuthService) {}
 
     public function handle(Request $request, Closure $next): JsonResponse|Closure
     {
         $response = new ResponseService();
         $token = $request->bearerToken();
 
-        if (!$token) {
-            return $response->error(401, "Unauthorized");
+        if (! $token) {
+            return $response->error(401, 'Unauthorized');
         }
 
         $decoded = $this->jwtAuthService->decodeToken($token);
 
-        if (!$decoded) {
-            return $response->error(401, "Unauthorized");
+        if (! $decoded) {
+            return $response->error(401, 'Unauthorized');
         }
 
         $claims = $decoded->claims();

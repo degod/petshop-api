@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Promotion;
 use App\Models\File;
+use App\Models\Promotion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class PromotionFactory extends Factory
 {
     protected $model = Promotion::class;
-    
+
     /**
      * Define the model's default state.
      *

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
  *     version="1.0.0",
  *     title="Petshop API Documentation",
  *     description="This is the API documentation for Petshop.",
+ *
  *     @OA\Contact(
  *         name="Godwin (DeGod)",
  *         email="support@petshop-api.test"

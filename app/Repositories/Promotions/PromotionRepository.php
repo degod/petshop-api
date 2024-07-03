@@ -7,9 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PromotionRepository implements PromotionRepositoryInterface
 {
-    public function __construct(private Promotion $promotion)
-    {
-    }
+    public function __construct(private Promotion $promotion) {}
 
     public function findById(int $id): ?Promotion
     {
@@ -27,7 +25,7 @@ class PromotionRepository implements PromotionRepositoryInterface
 
     /**
      * Get all promotions
-     * 
+     *
      * @param  array<string, mixed>  $params
      * @return LengthAwarePaginator<Promotion>
      */
@@ -42,11 +40,11 @@ class PromotionRepository implements PromotionRepositoryInterface
             function ($query) use ($params, $now) {
                 if ($params['valid']) {
                     $query->where('metadata->valid_from', '<=', $now)
-                          ->where('metadata->valid_to', '>=', $now);
+                        ->where('metadata->valid_to', '>=', $now);
                 } else {
                     $query->where(function ($query) use ($now) {
                         $query->where('metadata->valid_from', '>', $now)
-                              ->orWhere('metadata->valid_to', '<', $now);
+                            ->orWhere('metadata->valid_to', '<', $now);
                     });
                 }
             }

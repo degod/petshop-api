@@ -14,12 +14,16 @@ use Illuminate\Http\JsonResponse;
  *     tags={"Products"},
  *     summary="Create a new product",
  *     security={{"bearerAuth": {}}},
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"category_uuid", "title", "price", "description", "metadata"},
+ *
  *                 @OA\Property(property="category_uuid", type="string", description="Category UUID", example=""),
  *                 @OA\Property(property="title", type="string", description="Product title", example=""),
  *                 @OA\Property(property="price", type="number", description="Product price", example=""),
@@ -31,6 +35,7 @@ use Illuminate\Http\JsonResponse;
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200, description="OK"),
  *     @OA\Response(response=401, description="Unauthorized"),
  *     @OA\Response(response=404, description="Page not found"),
@@ -40,9 +45,7 @@ use Illuminate\Http\JsonResponse;
  */
 class CreateProductController extends Controller
 {
-    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService)
-    {
-    }
+    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService) {}
 
     public function __invoke(CreateProductRequest $request): JsonResponse
     {
@@ -54,6 +57,7 @@ class CreateProductController extends Controller
             return $this->responseService->success($product->makeHidden('id'));
         } catch (\Exception $e) {
             \Log::error($e);
+
             return $this->responseService->error(500, 'Failed to create product');
         }
     }

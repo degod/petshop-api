@@ -3,13 +3,13 @@
 namespace Tests\Feature\Categories;
 
 use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Services\JwtAuthServiceInterface;
+use DateTimeImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use DateTimeImmutable;
+use Tests\TestCase;
 
 class ViewCategoryTest extends TestCase
 {
@@ -45,7 +45,7 @@ class ViewCategoryTest extends TestCase
 
         // Send the GET request with the Bearer token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token->toString(),
+            'Authorization' => 'Bearer '.$token->toString(),
         ])->get(route('categories.view', ['uuid' => $category->uuid]));
 
         // Assert the response status
@@ -63,7 +63,7 @@ class ViewCategoryTest extends TestCase
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
 
         // Assert the JSON content
@@ -71,7 +71,7 @@ class ViewCategoryTest extends TestCase
             'data' => [
                 'uuid' => $category->uuid,
                 'title' => $category->title,
-            ]
+            ],
         ]);
     }
 }

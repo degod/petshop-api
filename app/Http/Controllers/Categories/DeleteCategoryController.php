@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Categories;
 use App\Http\Controllers\Controller;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Services\ResponseService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Delete(
@@ -14,12 +14,15 @@ use Illuminate\Http\JsonResponse;
  *     tags={"Categories"},
  *     summary="Delete an existing category",
  *     security={{"bearerAuth":{}}},
+ *
  *     @OA\Parameter(
  *         name="uuid",
  *         in="path",
  *         required=true,
+ *
  *         @OA\Schema(type="string")
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Category not found"),
@@ -29,9 +32,7 @@ use Illuminate\Http\JsonResponse;
  */
 class DeleteCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository)
-    {
-    }
+    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
 
     public function __invoke(Request $request, string $uuid): JsonResponse
     {
@@ -40,7 +41,7 @@ class DeleteCategoryController extends Controller
         try {
             $category = $this->categoryRepository->findByUuid($uuid);
 
-            if (!$category) {
+            if (! $category) {
                 return $response->error(404, 'Category not found');
             }
 

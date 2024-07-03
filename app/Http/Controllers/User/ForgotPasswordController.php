@@ -14,16 +14,21 @@ use Illuminate\Support\Str;
  *     path="/api/v1/user/forgot-password",
  *     tags={"User"},
  *     summary="Creates a token to reset a user password",
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"email"},
+ *
  *                 @OA\Property(property="email", type="string", description="User email", example=""),
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -33,9 +38,7 @@ use Illuminate\Support\Str;
  */
 class ForgotPasswordController extends Controller
 {
-    public function __construct(private PasswordResetRepositoryInterface $passwordResetRepository)
-    {
-    }
+    public function __construct(private PasswordResetRepositoryInterface $passwordResetRepository) {}
 
     public function __invoke(ForgotPasswordRequest $request): JsonResponse
     {

@@ -27,6 +27,7 @@ services:
             - meilisearch
             - mailpit
             - selenium
+        # command: ["sh", "-c", "php && php artisan migrate:fresh && php artisan db:seed && ./vendor/bin/pint && ./vendor/bin/phpstan analyse && php artisan test"]
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:

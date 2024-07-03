@@ -7,20 +7,24 @@ use App\Http\Requests\StoreUser;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\JwtAuthService;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Post(
  *     path="/api/v1/user/create",
  *     summary="Create a User account",
  *     tags={"User"},
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
+ *
  *             @OA\Schema(
  *                 required={"first_name", "last_name", "email", "password", "password_confirmation", "phone_number", "address"},
+ *
  *                 @OA\Property(property="first_name", type="string", description="User firstname", example=""),
  *                 @OA\Property(property="last_name", type="string", description="User lastname", example=""),
  *                 @OA\Property(property="email", type="string", description="User email", example=""),
@@ -33,6 +37,7 @@ use Illuminate\Http\JsonResponse;
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(response=200,description="OK"),
  *     @OA\Response(response=401,description="Unauthorized"),
  *     @OA\Response(response=404,description="Page not found"),
@@ -42,9 +47,7 @@ use Illuminate\Http\JsonResponse;
  */
 class CreateController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
 
     public function __invoke(StoreUser $request): JsonResponse
     {
@@ -59,10 +62,10 @@ class CreateController extends Controller
             'phone_number' => $validated['phone_number'],
             'address' => $validated['address'],
         ];
-        if(!empty($request['avatar'])) {
+        if (! empty($request['avatar'])) {
             $inputData['avatar'] = $request['avatar'];
         }
-        if(!empty($request['is_marketing'])) {
+        if (! empty($request['is_marketing'])) {
             $inputData['is_marketing'] = $request['is_marketing'];
         }
 

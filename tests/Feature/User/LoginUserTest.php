@@ -3,12 +3,12 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Services\JwtAuthService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Mockery;
-use App\Services\JwtAuthService;
-use App\Repositories\User\UserRepositoryInterface;
+use Tests\TestCase;
 
 class LoginUserTest extends TestCase
 {
@@ -53,18 +53,18 @@ class LoginUserTest extends TestCase
         $response->assertJsonStructure([
             'success',
             'data' => [
-                'token'
+                'token',
             ],
             'error',
             'errors',
-            'extra'
+            'extra',
         ]);
 
         // Assert the token
         $response->assertJson([
             'data' => [
-                'token' => 'mocked_jwt_token'
-            ]
+                'token' => 'mocked_jwt_token',
+            ],
         ]);
     }
 }

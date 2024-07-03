@@ -1,28 +1,28 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\JwtMiddleware;
-use App\Http\Controllers\User\CreateController;
-use App\Http\Controllers\User\LoginController;
-use App\Http\Controllers\User\ViewController;
-use App\Http\Controllers\User\EditController;
-use App\Http\Controllers\User\LogoutController;
-use App\Http\Controllers\User\DeleteController;
-use App\Http\Controllers\User\ForgotPasswordController;
-use App\Http\Controllers\User\ResetPasswordController;
-use App\Http\Controllers\MainPage\PromotionsController;
-use App\Http\Controllers\MainPage\BlogPostsController;
-use App\Http\Controllers\MainPage\BlogPostController;
 use App\Http\Controllers\Categories\CreateCategoryController;
-use App\Http\Controllers\Categories\EditCategoryController;
-use App\Http\Controllers\Categories\ViewCategoryController;
-use App\Http\Controllers\Categories\ListCategoryController;
 use App\Http\Controllers\Categories\DeleteCategoryController;
+use App\Http\Controllers\Categories\EditCategoryController;
+use App\Http\Controllers\Categories\ListCategoryController;
+use App\Http\Controllers\Categories\ViewCategoryController;
+use App\Http\Controllers\MainPage\BlogPostController;
+use App\Http\Controllers\MainPage\BlogPostsController;
+use App\Http\Controllers\MainPage\PromotionsController;
 use App\Http\Controllers\Products\CreateProductController;
+use App\Http\Controllers\Products\DeleteProductController;
 use App\Http\Controllers\Products\EditProductController;
 use App\Http\Controllers\Products\ListProductController;
 use App\Http\Controllers\Products\ViewProductController;
-use App\Http\Controllers\Products\DeleteProductController;
+use App\Http\Controllers\User\CreateController;
+use App\Http\Controllers\User\DeleteController;
+use App\Http\Controllers\User\EditController;
+use App\Http\Controllers\User\ForgotPasswordController;
+use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\User\LogoutController;
+use App\Http\Controllers\User\ResetPasswordController;
+use App\Http\Controllers\User\ViewController;
+use App\Http\Middleware\JwtMiddleware;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     // USER GROUPED ROUTES
