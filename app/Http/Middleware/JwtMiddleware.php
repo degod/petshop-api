@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 class JwtMiddleware
 {
-    public function __construct(private JwtAuthService $jwtAuthService) {}
+    public function __construct(private JwtAuthService $jwtAuthService)
+    {
+    }
 
     public function handle(Request $request, Closure $next): JsonResponse|Closure
     {

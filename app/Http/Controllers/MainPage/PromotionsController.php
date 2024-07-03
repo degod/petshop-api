@@ -62,7 +62,9 @@ use Illuminate\Http\Request;
  */
 class PromotionsController extends Controller
 {
-    public function __construct(private PromotionRepositoryInterface $promotionRepository) {}
+    public function __construct(private PromotionRepositoryInterface $promotionRepository)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

@@ -54,7 +54,9 @@ use Illuminate\Http\Request;
  */
 class BlogPostsController extends Controller
 {
-    public function __construct(private PostRepositoryInterface $postRepository) {}
+    public function __construct(private PostRepositoryInterface $postRepository)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

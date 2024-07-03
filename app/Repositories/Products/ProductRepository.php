@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function __construct(private Product $product) {}
+    public function __construct(private Product $product)
+    {
+    }
 
     public function findById(int $id): ?Product
     {

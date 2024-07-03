@@ -10,7 +10,9 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Create a new class instance.
      */
-    public function __construct(private User $user) {}
+    public function __construct(private User $user)
+    {
+    }
 
     /**
      * Used to insert user data

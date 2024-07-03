@@ -7,7 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostRepository implements PostRepositoryInterface
 {
-    public function __construct(private Post $post) {}
+    public function __construct(private Post $post)
+    {
+    }
 
     public function findById(int $id): ?Post
     {

@@ -32,7 +32,9 @@ use Illuminate\Http\JsonResponse;
  */
 class ViewCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
+    {
+    }
 
     public function __invoke(string $uuid): JsonResponse
     {

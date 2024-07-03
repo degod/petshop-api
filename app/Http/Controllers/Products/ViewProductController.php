@@ -32,7 +32,9 @@ use Illuminate\Http\JsonResponse;
  */
 class ViewProductController extends Controller
 {
-    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService) {}
+    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService)
+    {
+    }
 
     public function __invoke(string $uuid): JsonResponse
     {

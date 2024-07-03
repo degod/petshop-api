@@ -47,7 +47,9 @@ use Illuminate\Support\Facades\Hash;
  */
 class CreateController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
+    {
+    }
 
     public function __invoke(StoreUser $request): JsonResponse
     {

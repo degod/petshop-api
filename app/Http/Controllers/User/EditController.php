@@ -47,7 +47,9 @@ use Illuminate\Http\JsonResponse;
  */
 class EditController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
+    {
+    }
 
     public function __invoke(EditUser $request): JsonResponse
     {

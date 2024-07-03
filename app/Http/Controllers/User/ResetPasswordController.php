@@ -42,7 +42,9 @@ use Illuminate\Support\Facades\Hash;
  */
 class ResetPasswordController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private PasswordResetRepositoryInterface $passwordResetRepository) {}
+    public function __construct(private UserRepositoryInterface $userRepository, private PasswordResetRepositoryInterface $passwordResetRepository)
+    {
+    }
 
     public function __invoke(ResetPasswordRequest $request): JsonResponse
     {

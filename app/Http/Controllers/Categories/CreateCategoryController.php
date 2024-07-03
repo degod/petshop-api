@@ -38,7 +38,9 @@ use Illuminate\Http\JsonResponse;
  */
 class CreateCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository, private ResponseService $responseService) {}
+    public function __construct(private CategoryRepositoryInterface $categoryRepository, private ResponseService $responseService)
+    {
+    }
 
     public function __invoke(CreateCategoryRequest $request): JsonResponse
     {

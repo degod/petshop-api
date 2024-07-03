@@ -25,7 +25,9 @@ use Illuminate\Http\Request;
  */
 class DeleteController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

@@ -7,7 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PromotionRepository implements PromotionRepositoryInterface
 {
-    public function __construct(private Promotion $promotion) {}
+    public function __construct(private Promotion $promotion)
+    {
+    }
 
     public function findById(int $id): ?Promotion
     {

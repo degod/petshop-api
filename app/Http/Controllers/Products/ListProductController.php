@@ -88,7 +88,9 @@ use Illuminate\Http\Request;
  */
 class ListProductController extends Controller
 {
-    public function __construct(private ProductRepositoryInterface $productRepository) {}
+    public function __construct(private ProductRepositoryInterface $productRepository)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

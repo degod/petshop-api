@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function __construct(private Category $category) {}
+    public function __construct(private Category $category)
+    {
+    }
 
     public function findById(int $id): ?Category
     {

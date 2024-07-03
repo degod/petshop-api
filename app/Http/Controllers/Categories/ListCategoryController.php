@@ -55,7 +55,9 @@ use Illuminate\Http\Request;
  */
 class ListCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

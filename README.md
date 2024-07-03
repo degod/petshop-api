@@ -46,7 +46,7 @@ Before you start, ensure you have the following installed:
 6. **Completing the setup:**
 
 	```bash
-	php artisan migrate:fresh && php artisan db:seed && ./vendor/bin/pint && ./vendor/bin/phpstan analyse && php artisan test
+	php artisan migrate:fresh && php artisan db:seed && ./vendor/bin/pint --preset psr12 && ./vendor/bin/phpstan analyse && php artisan test
 	```
 
 7. **Exiting container shell:**

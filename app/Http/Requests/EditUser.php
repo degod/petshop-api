@@ -11,7 +11,9 @@ use Illuminate\Validation\Rule;
 
 class EditUser extends FormRequest
 {
-    public function __construct(private JwtAuthService $jwtAuthService) {}
+    public function __construct(private JwtAuthService $jwtAuthService)
+    {
+    }
 
     /**
      * Determine if the user is authorized to make this request.

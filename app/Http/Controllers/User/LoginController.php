@@ -41,7 +41,9 @@ use Illuminate\Support\Facades\Hash;
  */
 class LoginController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService) {}
+    public function __construct(private UserRepositoryInterface $userRepository, private JwtAuthService $jwtAuthService)
+    {
+    }
 
     public function __invoke(LoginUser $request): JsonResponse
     {

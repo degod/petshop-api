@@ -6,7 +6,9 @@ use App\Models\File;
 
 class FileRepository implements FileRepositoryInterface
 {
-    public function __construct(private File $file) {}
+    public function __construct(private File $file)
+    {
+    }
 
     public function findById(int $id): ?File
     {

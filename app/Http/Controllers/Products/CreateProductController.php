@@ -45,7 +45,9 @@ use Illuminate\Http\JsonResponse;
  */
 class CreateProductController extends Controller
 {
-    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService) {}
+    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService)
+    {
+    }
 
     public function __invoke(CreateProductRequest $request): JsonResponse
     {

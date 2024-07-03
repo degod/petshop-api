@@ -47,7 +47,9 @@ use Illuminate\Support\Str;
  */
 class EditCategoryController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
+    {
+    }
 
     public function __invoke(string $uuid, EditCategoryRequest $request): JsonResponse
     {

@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 
 class BrandRepository implements BrandRepositoryInterface
 {
-    public function __construct(private Brand $brand) {}
+    public function __construct(private Brand $brand)
+    {
+    }
 
     public function findById(int $id): ?Brand
     {

@@ -55,7 +55,9 @@ use Illuminate\Support\Facades\DB;
  */
 class EditProductController extends Controller
 {
-    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService) {}
+    public function __construct(private ProductRepositoryInterface $productRepository, private ResponseService $responseService)
+    {
+    }
 
     public function __invoke(EditProductRequest $request, string $uuid): JsonResponse
     {
