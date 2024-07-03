@@ -64,7 +64,7 @@ Before you start, ensure you have the following installed:
 
 ## Contributing
 
-	If you encounter bugs or wish to contribute, please follow these steps:
+If you encounter bugs or wish to contribute, please follow these steps:
 
 - Fork the repository and clone it locally.
 - Create a new branch (`git checkout -b feature/fix-issue`).
@@ -74,7 +74,7 @@ Before you start, ensure you have the following installed:
 
 ## Contact
 
-	For inquiries or assistance, you can reach out to Godwin Uche:
+For inquiries or assistance, you can reach out to Godwin Uche:
 
 - `Email:` degodtest@gmail.com
 - `Phone:` +2348024245093
